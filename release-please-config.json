@@ -1,0 +1,9 @@
+{
+  "packages": {
+    "tools/nx-sonar": {
+      "release-type": "node",
+      "component": "nx-sonar",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}

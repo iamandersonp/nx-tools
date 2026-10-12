@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "nx-sonar",
+  "version": "0.0.1",
+  "executors": {
+    "sonar": {
+      "implementation": "./out-tsc/lib/src/executors/sonar/executor",
+      "schema": "./src/executors/sonar/schema.json",
+      "description": "Run the Sonar scanner for the invoking project, deriving the scanner properties from the project graph and the target's options."
+    }
+  }
+}
