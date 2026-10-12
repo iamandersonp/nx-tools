@@ -1,0 +1,17 @@
+/* What ships: the plugin's inference and executor, excluding specs and the
+ * frozen parity fixtures under `src/testing/`, which only the suite reads.
+ * `rootDir` is this project's own `src/`, project-relative `outDir` --
+ * self-contained, matching `libs/{providers,ui}/tsconfig.lib.json`'s shape.
+ * `declaration`/`composite` come from `tsconfig.base.json` through
+ * `./tsconfig.json`'s `extends`, which is what makes `tsc -b` (the inferred
+ * `typecheck` target) emit instead of failing TS5069. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./out-tsc/lib",
+    "emitDeclarationOnly": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts", "src/testing/**"]
+}

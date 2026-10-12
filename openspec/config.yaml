@@ -1,0 +1,43 @@
+schema: spec-driven
+
+context: |
+  Project: nx-tools, an Nx 23.2.0 TypeScript workspace.
+  Architecture: Nx library workspace with the private tools/nx-sonar plugin.
+  Source: TypeScript using NodeNext modules, strict compiler settings, and project references.
+  Testing: Jest unit tests with Nx targets and LCOV coverage for SonarQube.
+  Quality: Angular ESLint target, TypeScript typecheck, Prettier, and conventional commits.
+  Workflow: Changes are specified before implementation and verified through Nx targets.
+
+strict_tdd: true
+
+testing:
+  runner: jest
+  test_command: npm run test:ci
+  coverage_command: npm run test:coverage
+  typecheck_command: npm run typecheck
+  lint_command: npm exec nx run-many -t lint
+  formatter_command: npm run prettier-staged
+  layers:
+    unit: true
+    integration: false
+    e2e: false
+  coverage: lcov
+
+rules:
+  proposal:
+    - Include rollback plans for risky changes.
+  specs:
+    - Use Given/When/Then scenarios and RFC 2119 requirement keywords.
+  design:
+    - Document architecture decisions with rationale.
+  tasks:
+    - Group tasks by phase and keep them completable in one session.
+  apply:
+    tdd: true
+    test_command: npm run test:ci
+  verify:
+    test_command: npm run test:ci
+    build_command: npm exec nx run nx-sonar:typecheck
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas.
