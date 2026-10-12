@@ -1,26 +1,46 @@
 {
-  "name": "@oiamandersonp/source",
+  "name": "@iamandersonp/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prettier-staged": "prettier-staged"
+    "nx": "npx nx",
+    "cordova-res": "npx cordova-res",
+    "tsc": "npx tsc",
+    "typecheck": "npm run nx -- sync:check && npm run nx -- run-many -t typecheck",
+    "test": "npm run nx -- test --watch=true --skip-nx-cache",
+    "test:ci": "npm run nx -- run-many -t test",
+    "test:coverage": "npm run nx -- run-many -t test --coverage",
+    "sonar": "set -a; [ -f .env.local ] && . ./.env.local; set +a; nx run-many -t sonar",
+    "prettier-staged": "prettier-staged",
+    "setup:git-hooks": "git config core.hooksPath .git-hooks 2> /dev/null",
+    "postinstall": "npm run setup:git-hooks"
+  },
+  "engines": {
+    "node": ">=22.22.3 <23.0.0",
+    "npm": ">=10.0.0 <12.0.0"
   },
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
     "@iamandersonp/prettier-staged": "^0.6.1",
+    "@nx/jest": "^23.2.0",
     "@nx/js": "23.2.0",
+    "@sonar/scan": "^5.0.1",
     "@swc-node/register": "1.11.1",
     "@swc/core": "1.15.8",
     "@swc/helpers": "0.5.18",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.0.0",
+    "jest": "^30.5.2",
     "nx": "23.2.0",
     "prettier": "^3.8.1",
+    "ts-jest": "^29.4.14",
     "tslib": "^2.3.0",
     "typescript": "~6.0.3"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "tools/*"
   ]
 }

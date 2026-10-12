@@ -19,6 +19,9 @@
           "watchDepsName": "watch-deps"
         }
       }
+    },
+    {
+      "plugin": "@iamandersonp/nx-sonar"
     }
   ],
   "analytics": true

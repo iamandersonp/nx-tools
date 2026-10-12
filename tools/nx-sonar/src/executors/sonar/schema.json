@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Sonar",
+  "title": "Run the Sonar scanner for the invoking project",
+  "description": "Derives the scanner properties from the project graph and these options, then runs the workspace-local Sonar scanner against the project's own root.",
+  "type": "object",
+  "properties": {
+    "projectKey": {
+      "type": "string",
+      "description": "The SonarQube project key. Required: it is also what opts the project in to the inferred sonar target."
+    },
+    "projectName": {
+      "type": "string",
+      "description": "The SonarQube project name. Defaults to projectKey."
+    },
+    "tsconfig": {
+      "type": "string",
+      "description": "The tsconfig the analysis reads, relative to the project root, used as given. Defaults to the first of tsconfig.sonar.json, tsconfig.lib.json and tsconfig.app.json that exists."
+    },
+    "lcovReportPath": {
+      "type": "string",
+      "description": "The lcov report, relative to the project root. Replaces the coverage/lcov.info default."
+    },
+    "dryRun": {
+      "type": "boolean",
+      "default": false,
+      "description": "Print the effective key=value properties and skip the scanner."
+    },
+    "extraSources": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Source folders appended to the default."
+    },
+    "extraTests": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Test folders appended to the default."
+    },
+    "extraTestInclusions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Test inclusion globs appended to the default."
+    },
+    "extraTsconfigPaths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Further tsconfig files appended after the chosen one."
+    },
+    "extraExclusions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Exclusion globs appended to the default."
+    },
+    "extraCoverageExclusions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Coverage exclusion globs appended to the default."
+    }
+  },
+  "required": ["projectKey"],
+  "additionalProperties": false
+}

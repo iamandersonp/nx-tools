@@ -1,0 +1,13 @@
+/* What the suite compiles: production sources plus every `*.spec.ts`,
+   mirroring `libs/ui/tsconfig.spec.json`'s split between what ships and
+   what tests it. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "rootDir": ".",
+    "types": ["node", "jest"],
+    "isolatedModules": true
+  },
+  "include": ["src/**/*.ts"]
+}
