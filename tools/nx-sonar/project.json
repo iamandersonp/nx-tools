@@ -1,0 +1,38 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "nx-sonar",
+  "sourceRoot": "tools/nx-sonar/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "tools/nx-sonar/out-tsc/lib",
+        "main": "tools/nx-sonar/src/index.ts",
+        "tsConfig": "tools/nx-sonar/tsconfig.lib.json"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "tools/nx-sonar/jest.config.js"
+      },
+      "outputs": ["{workspaceRoot}/tools/nx-sonar/coverage"]
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": ["tools/nx-sonar/src/**/*.ts"]
+      }
+    },
+    "sonar": {
+      "options": {
+        "projectKey": "nx-sonar",
+        "extraTestInclusions": ["src/testing/**"],
+        "extraExclusions": ["src/testing/**"],
+        "extraCoverageExclusions": ["src/testing/**"]
+      }
+    }
+  }
+}

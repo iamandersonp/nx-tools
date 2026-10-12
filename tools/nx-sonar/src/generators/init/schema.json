@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxSonarInit",
+  "title": "Register the Sonar plugin in nx.json",
+  "description": "Adds the plugin to nx.json plugins when it is not registered yet, and optionally sets the prefix of default project keys.",
+  "type": "object",
+  "properties": {
+    "projectKeyPrefix": {
+      "type": "string",
+      "description": "Put before the project name to build the default projectKey of the configuration generator. Stored as options.projectKeyPrefix on the plugin entry. No prefix when omitted."
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "description": "Skip formatting the files the generator changed.",
+      "default": false
+    }
+  },
+  "required": []
+}

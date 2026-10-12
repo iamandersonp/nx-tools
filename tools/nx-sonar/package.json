@@ -1,0 +1,25 @@
+{
+  "name": "@iamandersonp/nx-sonar",
+  "version": "0.0.1",
+  "description": "Nx plugin that runs the Sonar scanner for any project that opts in with a sonar target, deriving the scanner properties from the project graph.",
+  "private": false,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "out-tsc/lib",
+    "executors.json",
+    "generators.json",
+    "src/executors/sonar/schema.json",
+    "src/generators/init/schema.json",
+    "src/generators/configuration/schema.json",
+    "README.md"
+  ],
+  "main": "./out-tsc/lib/src/index.js",
+  "generators": "./generators.json",
+  "executors": "./executors.json",
+  "peerDependencies": {
+    "@sonar/scan": "^5.0.1"
+  }
+}
