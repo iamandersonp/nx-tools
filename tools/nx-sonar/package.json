@@ -1,6 +1,6 @@
 {
   "name": "@iamandersonp/nx-sonar",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Nx plugin that runs the Sonar scanner for any project that opts in with a sonar target, deriving the scanner properties from the project graph.",
   "private": false,
   "license": "MIT",
