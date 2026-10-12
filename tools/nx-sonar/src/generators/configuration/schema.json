@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxSonarConfiguration",
+  "title": "Add a sonar target to a project",
+  "description": "Opts one project into Sonar analysis by adding a sonar target with its projectKey to project.json. The plugin infers the executor.",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The Nx project that receives the sonar target.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Which project should be analysed by Sonar?",
+      "x-dropdown": "projects"
+    },
+    "projectKey": {
+      "type": "string",
+      "description": "The SonarQube project key. Defaults to the plugin's projectKeyPrefix option in nx.json followed by the project name."
+    },
+    "projectName": {
+      "type": "string",
+      "description": "The SonarQube project name. Omitted when not given, so the executor defaults it to projectKey."
+    },
+    "tsconfig": {
+      "type": "string",
+      "description": "The tsconfig the analysis reads, relative to the project root, used as given. Defaults to the first of tsconfig.sonar.json, tsconfig.lib.json and tsconfig.app.json that exists."
+    },
+    "lcovReportPath": {
+      "type": "string",
+      "description": "The lcov report, relative to the project root. Replaces the coverage/lcov.info default."
+    },
+    "extraSources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Source folders appended to the default."
+    },
+    "extraTests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Test folders appended to the default."
+    },
+    "extraTestInclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Test inclusion globs appended to the default."
+    },
+    "extraTsconfigPaths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Further tsconfig files appended after the chosen one."
+    },
+    "extraExclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Exclusion globs appended to the default."
+    },
+    "extraCoverageExclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Coverage exclusion globs appended to the default."
+    },
+    "overwrite": {
+      "type": "boolean",
+      "description": "Replace a sonar target the project already declares.",
+      "default": false
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "description": "Skip formatting the files the generator changed.",
+      "default": false
+    }
+  },
+  "required": ["project"],
+  "additionalProperties": false
+}
