@@ -35,6 +35,12 @@
       "options": {
         "targetName": "jest:test"
       }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
     }
   ],
   "analytics": true
