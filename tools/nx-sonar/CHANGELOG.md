@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/iamandersonp/nx-tools/compare/nx-sonar-v1.0.1...nx-sonar-v1.0.2) (2026-10-13)
+
+
+### Bug Fixes
+
+* **nx-sonar:** invoke the installed scanner binary ([ce53c5c](https://github.com/iamandersonp/nx-tools/commit/ce53c5c2ce5970033dd6f786c8fb60035aeca32d))
+
 ## [1.0.1](https://github.com/iamandersonp/nx-tools/compare/nx-sonar-v1.0.0...nx-sonar-v1.0.1) (2026-10-13)
 
 
