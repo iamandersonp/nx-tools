@@ -1,6 +1,6 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "nx-sonar",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "tools/nx-sonar/src",
   "projectType": "library",
   "targets": {
@@ -15,15 +15,14 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/tools/nx-sonar/coverage"],
       "options": {
         "jestConfig": "tools/nx-sonar/jest.config.js"
-      },
-      "outputs": ["{workspaceRoot}/tools/nx-sonar/coverage"]
+      }
     },
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": ["tools/nx-sonar/src/**/*.ts"]
+        "args": ["src/**/*.ts"]
       }
     },
     "sonar": {
