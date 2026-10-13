@@ -3,6 +3,18 @@
   "version": "1.0.1",
   "description": "Nx plugin that runs the Sonar scanner for any project that opts in with a sonar target, deriving the scanner properties from the project graph.",
   "private": false,
+  "keywords": [
+    "nx",
+    "sonar",
+    "sonarQube"
+  ],
+  "author": "Anderson Penaloza <info@iamanderson.dev>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamandersonp/nx-tools.git"
+  },
+  "homepage": "https://github.com/iamandersonp/nx-tools.git",
+  "readme": "README.md",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
