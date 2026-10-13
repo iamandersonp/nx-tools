@@ -43,6 +43,12 @@ if [ "$IN_MERGE" -eq 1 ]; then
   exit 0
 fi
 
+if ! npm run lint -- --fix; then
+  echo "❌ lint failed — commit aborted. Fix the lint errors and retry."
+  exit 1
+fi
+
+
 npm run prettier-staged
 
 EXTENSIONS_PATTERN=$(get_extensions_from_env)
