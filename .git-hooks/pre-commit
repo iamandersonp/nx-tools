@@ -33,8 +33,8 @@ if ! npm run typecheck; then
   exit 1
 fi
 
-if ! npm run test:ci; then
-  echo "❌ test:ci (jest, single run) failed — commit aborted. Fix the failing specs and retry."
+if ! npm run test:coverage; then
+  echo "❌ test:coverage (jest, single run with coverage) failed — commit aborted. Fix the failing specs and retry."
   exit 1
 fi
 

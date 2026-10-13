@@ -10,13 +10,14 @@ jest.mock('node:child_process');
 jest.mock('node:fs');
 jest.mock('@nx/devkit', () => ({
   ...jest.requireActual('@nx/devkit'),
-  logger: { info: jest.fn(), warn: jest.fn() }
+  logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn() }
 }));
 
 const mockedSpawnSync = spawnSync as jest.MockedFunction<typeof spawnSync>;
 const mockedExistsSync = existsSync as jest.MockedFunction<typeof existsSync>;
 const mockedInfo = logger.info as jest.MockedFunction<typeof logger.info>;
 const mockedWarn = logger.warn as jest.MockedFunction<typeof logger.warn>;
+const mockedError = logger.error as jest.MockedFunction<typeof logger.error>;
 
 /**
  * Builds a minimal `ExecutorContext` fixture for the project at
@@ -77,6 +78,7 @@ describe('sonar executor', () => {
     mockedExistsSync.mockReturnValue(true);
     mockedInfo.mockReset();
     mockedWarn.mockReset();
+    mockedError.mockReset();
   });
 
   describe('the scanner is spawned without a shell', () => {
@@ -85,7 +87,7 @@ describe('sonar executor', () => {
 
       expect(mockedSpawnSync).toHaveBeenCalledTimes(1);
       const [binary, , spawnOptions] = mockedSpawnSync.mock.calls[0];
-      expect(binary).toBe('/workspace/node_modules/.bin/sonar');
+      expect(binary).toBe('/workspace/node_modules/.bin/sonar-scanner-npm');
       expect(spawnOptions).toEqual({
         cwd: '/workspace',
         stdio: 'inherit'
@@ -114,6 +116,18 @@ describe('sonar executor', () => {
       mockedSpawnSync.mockReturnValue(spawnResult(status));
 
       expect(await run()).toEqual({ success });
+    });
+  });
+
+  describe('scanner execution errors', () => {
+    it('reports a missing executable and returns failure', async () => {
+      mockedSpawnSync.mockReturnValue({
+        ...spawnResult(null),
+        error: new Error('spawn sonar-scanner-npm ENOENT')
+      });
+
+      await expect(run()).resolves.toEqual({ success: false });
+      expect(mockedError).toHaveBeenCalledWith('Could not execute the Sonar scanner: spawn sonar-scanner-npm ENOENT');
     });
   });
 

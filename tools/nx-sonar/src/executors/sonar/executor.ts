@@ -16,7 +16,7 @@ import type { SonarExecutorSchema } from './schema';
  * The scanner properties are derived from the project graph and the
  * target's options, and `sonar.projectBaseDir` is the invoking project's
  * own root, resolved from the Nx execution context. The scanner binary is
- * the workspace-local `node_modules/.bin/sonar`, never `npx`, spawned
+ * the workspace-local `node_modules/.bin/sonar-scanner-npm`, never `npx`, spawned
  * from the workspace root with inherited stdio and without a shell, one
  * `-D` argument per property.
  *
@@ -52,10 +52,14 @@ const runExecutor: PromiseExecutor<SonarExecutorSchema> = async (options, contex
     return { success: true };
   }
 
-  const result = spawnSync(join(context.root, 'node_modules', '.bin', 'sonar'), toScannerArgs(properties), {
+  const result = spawnSync(join(context.root, 'node_modules', '.bin', 'sonar-scanner-npm'), toScannerArgs(properties), {
     cwd: context.root,
     stdio: 'inherit'
   });
+
+  if (result.error !== undefined) {
+    logger.error(`Could not execute the Sonar scanner: ${result.error.message}`);
+  }
 
   return { success: result.status === 0 };
 };
