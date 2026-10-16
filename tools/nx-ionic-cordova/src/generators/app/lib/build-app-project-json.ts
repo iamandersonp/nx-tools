@@ -15,6 +15,9 @@ import type { NormalizedAppGeneratorOptions } from './normalize-app-options';
  * cannot expand its default `{options.outputPath}` when `outputPath` is an object. `outputPath.base` and
  * `cordovaBasePath` are explicit: `@ionic/cordova-builders` ignores an implicit value.
  *
+ * `test` is zoneless like the starter's `main.ts`, and `@angular-builders/jest` resolves its `tsConfig`
+ * from the project root and installs the test environment itself, so no setup file is generated.
+ *
  * @param options the normalized generator options
  * @return the `project.json` object
  */
@@ -63,7 +66,7 @@ export function buildAppProjectJson(options: NormalizedAppGeneratorOptions): Rec
       },
       test: {
         executor: '@angular-builders/jest:run',
-        options: { tsConfig: `${appRoot}/tsconfig.spec.json`, zoneless: false }
+        options: { tsConfig: 'tsconfig.spec.json', zoneless: true }
       },
       lint: {
         executor: '@angular-eslint/builder:lint',

@@ -37,6 +37,11 @@ describe('buildAppProjectJson', () => {
     expect(build.outputs).toEqual(['{projectRoot}/www']);
   });
 
+  it('runs the Jest builder zoneless with a tsConfig relative to the project root', () => {
+    const test = targets.test as unknown as { options: Record<string, unknown> };
+    expect(test.options).toEqual({ tsConfig: 'tsconfig.spec.json', zoneless: true });
+  });
+
   it('adds live-android and live-ios to build and serve', () => {
     for (const target of ['build', 'serve']) {
       expect(Object.keys(targets[target].configurations ?? {})).toEqual(
