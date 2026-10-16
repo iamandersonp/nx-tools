@@ -11,12 +11,12 @@ Private source to port (read-only): `/mnt/Almacenamiento/asbmain/tools/nx-ionic-
 | 400-line budget risk | High (total); Medium per slice (slices 9 and 11 sit near the cap) |
 | Chained PRs recommended | Yes |
 | Suggested split | PR 1 → PR 2 → ... → PR 12 (one per slice) |
-| Delivery strategy | ask-on-risk |
-| Chain strategy | pending |
+| Delivery strategy | auto-chain |
+| Chain strategy | feature-branch-chain |
 
 Decision needed before apply: Yes
 Chained PRs recommended: Yes
-Chain strategy: pending
+Chain strategy: feature-branch-chain
 400-line budget risk: High
 
 Needs a choice before apply: stacked-to-main, feature-branch-chain, or size-exception. Slices 1-12 are ordered by dependency, so any chain strategy works. If a slice measures above 400 lines, split it before PR; do not take size-exception silently.
@@ -42,12 +42,12 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 1: Scaffold and wiring (~180 lines) [PKG]
 
-- [ ] 1.1 RED: `src/generators/shared/plugin-entry.spec.ts` asserts `PLUGIN_NAME === package.json#name` and `NATIVE_EXECUTOR`/`IONIC_HOOK_EXECUTOR` suffixes. [PKG manifest]
-- [ ] 1.2 Create `package.json` (public, MIT, peers `nx`/`@nx/devkit` `^23`, `bin`, `files`, compiled manifests), `project.json` (`@nx/js:tsc`), `tsconfig.json`, `tsconfig.lib.json`, `jest.config.js`, empty `executors.json`/`generators.json`, `src/index.ts`, copying the nx-sonar shape. [PKG manifest, build targets]
-- [ ] 1.3 GREEN: `src/generators/shared/plugin-entry.ts`.
-- [ ] 1.4 Wiring: root `tsconfig.json` reference, `eslint.config.mjs` glob, `release-please-config.json`, `.release-please-manifest.json` (`0.0.0`), `package-lock.json`. No publish job. [PKG wiring]
-- [ ] 1.5 RED/GREEN spec: manifest paths are not `.ts`; peers are `^23`. [PKG compiled targets, peers]
-- [ ] 1.6 Gates: test:ci, typecheck, lint, `nx build nx-ionic-cordova`.
+- [x] 1.1 RED: `src/generators/shared/plugin-entry.spec.ts` asserts `PLUGIN_NAME === package.json#name` and `NATIVE_EXECUTOR`/`IONIC_HOOK_EXECUTOR` suffixes. [PKG manifest]
+- [x] 1.2 Create `package.json` (public, MIT, peers `nx`/`@nx/devkit` `^23`, `bin`, `files`, compiled manifests), `project.json` (`@nx/js:tsc`), `tsconfig.json`, `tsconfig.lib.json`, `jest.config.js`, empty `executors.json`/`generators.json`, `src/index.ts`, copying the nx-sonar shape. [PKG manifest, build targets]
+- [x] 1.3 GREEN: `src/generators/shared/plugin-entry.ts`.
+- [x] 1.4 Wiring: root `tsconfig.json` reference, `eslint.config.mjs` glob, `release-please-config.json`, `.release-please-manifest.json` (`0.0.0`), `package-lock.json`. No publish job. [PKG wiring]
+- [x] 1.5 RED/GREEN spec: manifest paths are not `.ts`; peers are `^23`. [PKG compiled targets, peers]
+- [x] 1.6 Gates: test:ci, typecheck, lint, `nx build nx-ionic-cordova`.
 
 ## Slice 2: Resolver (~220 lines) [NAT, HOOK]
 
