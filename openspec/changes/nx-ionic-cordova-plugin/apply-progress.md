@@ -316,3 +316,26 @@ Tasks 11.1-11.5 complete. Slice 12 pending. Commit 1 of the slice is the carried
 - All `.ts` templates use the `__tmpl__` suffix, so tsc, jest and lint ignore them. Assets live on the `compile` target (`@nx/js:tsc` `assets`).
 - A first build failed because two `.ts` templates lacked the suffix (shell typo); tsc caught it and it was fixed before commit. The generated specs are not executed under Jest here; running them in a generated app is a verify-phase item.
 - Gates: `test:ci`, `typecheck`, `nx run-many -t lint`, `nx run nx-ionic-cordova:build` all exit 0.
+
+## Slice 12: README and pack check (branch `feat/nx-ionic-cordova-12-readme-pack`)
+
+Tasks 12.1-12.5 complete. All 12 slices done.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 12.1/12.2 | `packaging.spec.ts` | Unit (reads manifests, `files`, sources, workflows) | manifest specs passing | 1 failed (4 schemas not in `files`) | 6/6 | manifest paths, schemas, compiled entries, no sources, no `@bde`/`.bin` spawn, no `npm publish` | Coupling regex narrowed to code lines and `spawn*(...bin)`: comments and the PATH prepend matched first |
+| 12.3 | README | N/A (documentation) | - | - | - | iOS lines checked against `build-native-target.ts` | None |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Pack check | `nx run nx-ionic-cordova:build` then `npm pack --dry-run`: 101 files; compiled JS, executable `ionic-hook.js` (0755), both manifests, 4 `schema.json`, app templates incl. `favicon.png`, README, package.json; no plugin specs (only the generated-app `*.spec.ts__tmpl__` templates) |
+| Rollback boundary | Revert the two slice commits (`files` entries, `packaging.spec.ts`; README) |
+
+### Notes
+
+- Closes the carried gap: `schema` paths pointed at `src/` while only `out-tsc/lib` shipped; each `schema.json` is now listed in `files`, as nx-sonar does.
+- Publishing stays manual; no publish automation added. Verify-phase items: run the generated app specs in a generated app; a real `nx g` run.
