@@ -2,7 +2,8 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "composite": false,
-    "declarationMap": false
+    "declarationMap": false,
+    "emitDeclarationOnly": false
   },
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts"]

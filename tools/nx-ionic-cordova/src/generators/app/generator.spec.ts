@@ -94,6 +94,16 @@ describe('app generator', () => {
       expect(jest).toContain(`<rootDir>/${offset}node_modules/@ionic/core/dist/index.cjs.js`);
     });
 
+    it('resets every declaration-only option Nx 23 base config sets, for the Angular compiler', async () => {
+      const tree = createFixtureTree();
+      await appGenerator(tree, { ...BASE, directory });
+      expect(readJson(tree, `${root}/tsconfig.angular.json`).compilerOptions).toEqual({
+        composite: false,
+        declarationMap: false,
+        emitDeclarationOnly: false
+      });
+    });
+
     it('chains the leaf tsconfigs and writes the Jest bootstrap', async () => {
       const tree = createFixtureTree();
       await appGenerator(tree, { ...BASE, directory });

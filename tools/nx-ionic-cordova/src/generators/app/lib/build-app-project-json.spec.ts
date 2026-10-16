@@ -31,6 +31,12 @@ describe('buildAppProjectJson', () => {
     expect(targets[target].executor).toBe(executor);
   });
 
+  it('declares the build outputs so Nx can expand them with an object outputPath', () => {
+    const build = targets.build as unknown as { outputs: string[]; options: { outputPath: unknown } };
+    expect(build.options.outputPath).toEqual({ base: 'apps/shop/www', browser: '' });
+    expect(build.outputs).toEqual(['{projectRoot}/www']);
+  });
+
   it('adds live-android and live-ios to build and serve', () => {
     for (const target of ['build', 'serve']) {
       expect(Object.keys(targets[target].configurations ?? {})).toEqual(
