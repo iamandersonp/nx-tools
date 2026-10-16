@@ -183,3 +183,29 @@ Tasks 6.1-6.5 complete. Slices 7-12 pending.
 
 - `build` is now `nx:run-commands` (chmod 755 of the bin) depending on `compile` (the former `@nx/js:tsc` build). Node-based chmod keeps it shell-neutral.
 - The bin does not read `__dirname`, `node_modules/.bin/nx`, or `swc`; nx runs via `spawnCli('nx','nx')`.
+
+## Slice 7: Shared target builders (branch `feat/nx-ionic-cordova-07-shared-builders`)
+
+Tasks 7.1-7.5 complete. Slices 8-12 pending.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 7.1 | `build-live-reload-configurations.spec.ts` (trimmed port) | Unit | 92 passing | 4 suites failed: modules missing | 128/128 | app root, base arrays kept, non-array base | None |
+| 7.2 | `build-native-target.spec.ts` | Unit (through `buildArgv`) | 92 passing | same run | 128/128 | 16 ionic + 4 cordova-res command lines, `android@15`, no per-env/`--buildConfig`, deploy | None |
+| 7.3 | `build-ionic-hook-{targets,scripts}.spec.ts` | Unit | 92 passing | same run | 128/128 | executor ids, `nx-ionic-hook shop:...`, no swc or relative path | None |
+| 7.4 | builders | - | - | - | all green | - | Doc comments condensed; ids from `plugin-entry` |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `npm exec -- nx run nx-ionic-cordova:test` - 17 suites, 128 tests passed (36 new) |
+| Runtime harness | N/A: pure builders with no I/O; native configs are checked through the real `buildArgv` |
+| Rollback boundary | Delete `src/generators/shared/build-*` |
+
+### Notes
+
+- Native configs: `ios-build-test/ante` merged into `ios-build-debug`; `--buildConfig` dropped. `WORKSPACE_NPM_SCOPE` helper not ported (`@bde`).
+- Gates: `test:ci`, `typecheck`, `nx run-many -t lint` all exit 0.
