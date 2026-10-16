@@ -94,6 +94,16 @@ describe('app generator', () => {
       expect(jest).toContain(`<rootDir>/${offset}node_modules/@ionic/core/dist/index.cjs.js`);
     });
 
+    it('generates the starter ESLint flat config, so the lint target finds one', async () => {
+      const tree = createFixtureTree();
+      await appGenerator(tree, { ...BASE, directory });
+      const config = tree.read(`${root}/eslint.config.js`, 'utf-8') ?? '';
+      expect(config).toContain('tseslint.config(');
+      expect(config).toContain('angular.configs.tsRecommended');
+      expect(config).toContain('angular.configs.templateRecommended');
+      expect(config).toMatch(/suffixes: \[['"]Page['"], ['"]Component['"]\]/);
+    });
+
     it('resets every declaration-only option Nx 23 base config sets, for the Angular compiler', async () => {
       const tree = createFixtureTree();
       await appGenerator(tree, { ...BASE, directory });
