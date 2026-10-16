@@ -1,0 +1,31 @@
+/* Standalone project root. The plugin loads as CommonJS, so it cannot inherit
+   the monorepo base config's customConditions with classic Node resolution.
+   The reference to `tsconfig.lib.json` is hand-written -- `tsc --build`
+   on this file has `files: []`/`include: []`, so it is this own-project
+   reference that pulls real source into the build graph. */
+{
+  "files": [],
+  "include": [],
+  "compilerOptions": {
+    "composite": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "lib": ["ES2022"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022",
+    "noUncheckedSideEffectImports": false,
+    "ignoreDeprecations": "6.0",
+    "types": ["node"]
+  },
+  "references": [{ "path": "./tsconfig.lib.json" }, { "path": "./tsconfig.spec.json" }]
+}

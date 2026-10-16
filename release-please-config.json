@@ -1,5 +1,10 @@
 {
   "packages": {
+    "tools/nx-ionic-cordova": {
+      "release-type": "node",
+      "component": "nx-ionic-cordova",
+      "changelog-path": "CHANGELOG.md"
+    },
     "tools/nx-sonar": {
       "release-type": "node",
       "component": "nx-sonar",

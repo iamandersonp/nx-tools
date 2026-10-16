@@ -1,0 +1,29 @@
+{
+  "name": "nx-ionic-cordova",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/nx-ionic-cordova/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "tools/nx-ionic-cordova/out-tsc/lib",
+        "main": "tools/nx-ionic-cordova/src/index.ts",
+        "tsConfig": "tools/nx-ionic-cordova/tsconfig.lib.json"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/tools/nx-ionic-cordova/coverage"],
+      "options": {
+        "jestConfig": "tools/nx-ionic-cordova/jest.config.js"
+      }
+    },
+    "lint": {
+      "options": {
+        "args": ["src/**/*.ts"]
+      }
+    }
+  }
+}
