@@ -28,6 +28,7 @@ export const DEV_DEPENDENCIES: Readonly<Record<string, string>> = {
   cordova: '^13.0.0',
   'cordova-res': '^0.15.4',
   jest: '^30.0.0',
+  'jest-preset-angular': '^17.0.0',
   'native-run': '^2.0.0',
   typescript: '~6.0.0'
 };
