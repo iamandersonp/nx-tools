@@ -53,7 +53,7 @@ export function normalizeAppOptions(tree: Tree, raw: AppGeneratorSchema): Normal
   if (!PROJECT_NAME.test(raw.name ?? '')) {
     throw new Error(
       `Option "name" must be a project name, not a path; received "${raw.name ?? ''}". ` +
-        'It must start with a letter and contain no "/", "\\", ":" or whitespace. ' +
+        String.raw`It must start with a letter and contain no "/", "\", ":" or whitespace. ` +
         'Put the location in --directory, e.g. --directory=apps/mobile.'
     );
   }
