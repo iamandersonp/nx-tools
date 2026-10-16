@@ -33,6 +33,15 @@ function walk(dir: string): string[] {
 describe('published package contents', () => {
   const entries = [...Object.values(executors), ...Object.values(generators)];
 
+  it('describes every schema so --help never prints undefined', () => {
+    const described = entries
+      .filter((entry) => entry.schema)
+      .map((entry) => readJson<{ description?: string }>(normalize(entry.schema ?? '')));
+
+    expect(described.length).toBeGreaterThan(0);
+    expect(described.filter((schema) => !schema.description)).toEqual([]);
+  });
+
   it('publishes both manifests, the README and the bin file', () => {
     for (const path of ['executors.json', 'generators.json', 'README.md', ...Object.values(pkg.bin).map(normalize)]) {
       expect(isPublished(path)).toBe(true);
@@ -81,6 +90,7 @@ describe('workspace coupling', () => {
   it('adds no workflow that runs npm publish', () => {
     const workflows = walk(join(WORKSPACE_ROOT, '.github', 'workflows'));
 
+    expect(workflows.length).toBeGreaterThan(0);
     for (const file of workflows) {
       expect(readFileSync(file, 'utf8')).not.toMatch(/npm\s+publish/);
     }
