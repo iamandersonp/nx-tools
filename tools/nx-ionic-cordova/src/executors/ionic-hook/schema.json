@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "IonicHook",
+  "title": "Translate an Ionic CLI ionic:build/ionic:serve hook call into the matching Nx target",
+  "type": "object",
+  "properties": {
+    "hook": {
+      "type": "string",
+      "enum": ["build", "serve"],
+      "description": "Which Ionic CLI hook invoked this executor."
+    },
+    "platform": {
+      "type": "string",
+      "description": "The target platform (e.g. 'android', 'ios') forwarded by the Ionic CLI."
+    },
+    "host": { "type": "string", "description": "The dev-server host, used by the serve hook only." },
+    "port": { "type": "number", "description": "The dev-server port, used by the serve hook only." },
+    "buildConfiguration": {
+      "type": "string",
+      "description": "The configuration the Ionic CLI requested; the mapped target runs under it."
+    }
+  },
+  "required": ["hook"]
+}
