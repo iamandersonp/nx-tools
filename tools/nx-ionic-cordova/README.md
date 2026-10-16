@@ -144,4 +144,6 @@ Publishing is manual. This repository has no workflow that runs `npm publish`.
 
 Before a release, run `nx run nx-ionic-cordova:e2e`. It packs the plugin, installs
 the tarball into a throwaway workspace and builds, tests and lints a generated
-app. It needs registry access and takes about 5-8 minutes. CI does not run it.
+app. It needs registry access and takes a minute or two. CI does not run it.
+The throwaway workspace needs about 2 GB, so if `/tmp` is a small tmpfs, point
+`TMPDIR` at a larger disk.
