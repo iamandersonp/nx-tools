@@ -1,6 +1,6 @@
 import { mkdirSync, mkdtempSync, realpathSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { delimiter, join } from 'node:path';
 
 import { findWorkspaceRoot, resolveCliEntry, type ResolverDeps, spawnCli } from './resolve-cli';
 
@@ -14,6 +14,7 @@ function fakeDeps(
 ): ResolverDeps {
   return {
     execPath: EXEC_PATH,
+    env: { PATH: '/usr/bin' },
     resolve: (request) => {
       const pkg = request.replace(/\/package\.json$/, '');
       if (!(pkg in packages)) {
@@ -165,6 +166,43 @@ describe('spawnCli', () => {
         stdio: 'inherit'
       })
     );
+  });
+
+  it('prepends <root>/node_modules/.bin to the PATH of the child env', () => {
+    const deps = fakeDeps({ cordova: { bin: './bin/cordova' } }, { env: { PATH: '/usr/bin', HOME: '/home/u' } });
+
+    spawnCli('cordova', 'cordova', [], opts, deps);
+
+    const [command, args, options] = (deps.spawn as jest.Mock).mock.calls[0];
+    expect(options.env).toEqual({ PATH: `${ROOT}/node_modules/.bin${delimiter}/usr/bin`, HOME: '/home/u' });
+    expect(command).toBe(EXEC_PATH);
+    expect(args[0]).not.toContain('.bin');
+  });
+
+  it('keeps the existing PATH key casing, such as Path on Windows', () => {
+    const deps = fakeDeps({ cordova: { bin: './bin/cordova' } }, { env: { Path: 'C:\\bin' } });
+
+    spawnCli('cordova', 'cordova', [], opts, deps);
+
+    const { env } = (deps.spawn as jest.Mock).mock.calls[0][2];
+    expect(env).toEqual({ Path: `${ROOT}/node_modules/.bin${delimiter}C:\\bin` });
+  });
+
+  it('sets only the bin directory when the env has no PATH', () => {
+    const deps = fakeDeps({ cordova: { bin: './bin/cordova' } }, { env: {} });
+
+    spawnCli('cordova', 'cordova', [], opts, deps);
+
+    expect((deps.spawn as jest.Mock).mock.calls[0][2].env).toEqual({ PATH: `${ROOT}/node_modules/.bin` });
+  });
+
+  it('does not mutate the injected env', () => {
+    const env = { PATH: '/usr/bin' };
+    const deps = fakeDeps({ cordova: { bin: './bin/cordova' } }, { env });
+
+    spawnCli('cordova', 'cordova', [], opts, deps);
+
+    expect(env).toEqual({ PATH: '/usr/bin' });
   });
 
   it('keeps shell metacharacters inside a single argv element', () => {
