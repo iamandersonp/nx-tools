@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 
-import { addProjectConfiguration, formatFiles, generateFiles, type ProjectConfiguration, type Tree } from '@nx/devkit';
+import { addProjectConfiguration, formatFiles, generateFiles, type Tree } from '@nx/devkit';
 
 import { buildIonicHookScripts } from '../shared/build-ionic-hook-scripts';
 import { buildAppProjectJson } from './lib/build-app-project-json';
@@ -26,7 +26,7 @@ export default async function appGenerator(tree: Tree, rawOptions: AppGeneratorS
   addProjectConfiguration(tree, name, {
     root: appRoot,
     ...buildAppProjectJson(options)
-  } as ProjectConfiguration);
+  });
   generateFiles(tree, join(__dirname, 'files'), appRoot, {
     ...options,
     hookBuildScript,
