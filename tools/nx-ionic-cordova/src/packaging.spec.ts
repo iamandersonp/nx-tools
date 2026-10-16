@@ -96,3 +96,44 @@ describe('workspace coupling', () => {
     }
   });
 });
+
+describe('release wiring', () => {
+  const rootJson = <T>(file: string): T => JSON.parse(readFileSync(join(WORKSPACE_ROOT, file), 'utf8')) as T;
+  const config = rootJson<{ packages: Record<string, { component?: string }> }>('release-please-config.json');
+  const manifest = rootJson<Record<string, string>>('.release-please-manifest.json');
+
+  it('lists every release-please package in the manifest', () => {
+    for (const path of Object.keys(config.packages)) {
+      expect(manifest).toHaveProperty([path]);
+    }
+  });
+
+  it('releases the plugin as nx-ionic-cordova at the version its package.json declares', () => {
+    const path = 'tools/nx-ionic-cordova';
+
+    expect(config.packages[path]?.component).toBe('nx-ionic-cordova');
+    expect(manifest[path]).toBe(readJson<{ version: string }>('package.json').version);
+  });
+});
+
+describe('local tarball smoke target', () => {
+  const project = readJson<{ targets: { e2e?: { cache?: boolean; dependsOn?: string[] } } }>('project.json');
+
+  it('runs uncached after the build', () => {
+    expect(project.targets.e2e?.cache).toBe(false);
+    expect(project.targets.e2e?.dependsOn).toContain('build');
+  });
+
+  it('is not run by any workflow', () => {
+    const workflows = walk(join(WORKSPACE_ROOT, '.github', 'workflows'));
+
+    expect(workflows.length).toBeGreaterThan(0);
+    for (const file of workflows) {
+      expect(readFileSync(file, 'utf8')).not.toMatch(/nx-ionic-cordova:e2e|(-t|--targets?)[ =][^\n]*\be2e\b/);
+    }
+  });
+
+  it('does not publish the smoke script', () => {
+    expect(isPublished('e2e/smoke.mjs')).toBe(false);
+  });
+});

@@ -29,6 +29,14 @@
         "command": "node -e \"require('fs').chmodSync('out-tsc/lib/src/cli/ionic-hook.js', 0o755)\""
       }
     },
+    "e2e": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "cache": false,
+      "options": {
+        "command": "node tools/nx-ionic-cordova/e2e/smoke.mjs"
+      }
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/tools/nx-ionic-cordova/coverage"],
