@@ -92,11 +92,11 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 7: Shared target builders (~330 lines) [APP]
 
-- [ ] 7.1 Port `build-live-reload-configurations` and spec.
-- [ ] 7.2 RED `build-native-target.spec.ts`: add/rm, build, live, install, plugin-add/rm and resource configurations; `android@15`; no `-test`/`-ante` per-env configs; executor string has no `@bde`. [APP native configs]
-- [ ] 7.3 RED `build-ionic-hook-targets.spec.ts` and `build-ionic-hook-scripts.spec.ts`: `nx-ionic-hook shop:ionic-hook-build`, no swc, no relative path. [APP package.json]
-- [ ] 7.4 GREEN the three builders using `plugin-entry`.
-- [ ] 7.5 Gates.
+- [x] 7.1 Port `build-live-reload-configurations` and spec.
+- [x] 7.2 RED `build-native-target.spec.ts`: add/rm, build, live, install, plugin-add/rm and resource configurations; `android@15`; no `-test`/`-ante` per-env configs; executor string has no `@bde`. [APP native configs]
+- [x] 7.3 RED `build-ionic-hook-targets.spec.ts` and `build-ionic-hook-scripts.spec.ts`: `nx-ionic-hook shop:ionic-hook-build`, no swc, no relative path. [APP package.json]
+- [x] 7.4 GREEN the three builders using `plugin-entry`.
+- [x] 7.5 Gates.
 
 ## Slice 8: `init` and `versions.ts` (~300 lines) [INIT]
 
