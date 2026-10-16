@@ -98,6 +98,7 @@ describe('initGenerator', () => {
       const manifest = rootPackage(tree);
       expect(manifest.devDependencies['@ionic/cordova-builders']).toBeDefined();
       expect(manifest.devDependencies['@angular-builders/jest']).toBeDefined();
+      expect(manifest.devDependencies['jest-preset-angular']).toBeDefined();
       expect(manifest.devDependencies['@angular-eslint/builder']).toBeDefined();
       expect(manifest.dependencies['@ionic/angular']).toBe('^9.0.0');
       expect(manifest.dependencies['@angular/core']).toBe('^22.0.0');
