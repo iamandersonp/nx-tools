@@ -130,3 +130,31 @@ So a workspace-local `native-run` is NOT found when `nx` is launched without npm
 ### Notes
 
 - Emulator targeting is ported from the private source with `logger.warn`/`logger.info` and the native-run #409 comment; it runs inside the executor's `try`.
+
+## Slice 5: `ionic-hook` executor (branch `feat/nx-ionic-cordova-05-ionic-hook`)
+
+Tasks 5.1-5.4 complete (5.4 is the carried native-run follow-up). Slices 6-12 pending.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 5.4 | `src/shared/resolve-cli.spec.ts` | Unit (injected env, spawn) | 66 prior tests passing | 3 failed (prepend, `Path` casing, no PATH) | 69/69 | 4 cases (+ no mutation of the injected env) | None |
+| 5.1/5.2 | `ionic-hook/executor.spec.ts`, `lib/map-ionic-hook-options.spec.ts` (trimmed port) | Unit (mocked `runExecutor`) | 69 prior tests passing | 2 suites failed: modules `./executor`, `./map-ionic-hook-options` missing | 82/82 | web, cordova, config fallback, live, conflict, PORT x2, failed result, missing project | `plugin-entry` already holds `IONIC_HOOK_EXECUTOR`; nothing to extract |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `npm exec -- nx run nx-ionic-cordova:test` - 9 suites, 82 tests passed (13 new) |
+| Runtime harness | N/A: Nx `runExecutor` is mocked and spawn is injected; the bin that drives this executor is slice 6 |
+| Rollback boundary | Commit 1: `resolve-cli.ts` env change. Commit 2: delete `src/executors/ionic-hook`; revert `executors.json` |
+
+### Gate results
+
+`npm run test:ci`, `npm run typecheck`, `npm exec -- nx run-many -t lint`: all exit 0.
+
+### Notes
+
+- The private specs were trimmed to the spec scenarios (duplicated triangulation cases dropped) and the long commentary was condensed to stay under budget.
+
