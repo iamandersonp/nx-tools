@@ -59,7 +59,8 @@ workspace root `package.json`.
 | Target                                 | Executor                                    | Purpose                                                                  |
 | -------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------ |
 | `build`, `serve`                       | `@angular/build`                            | Web build and dev server, with `production` and `live-*` configurations. |
-| `test`, `lint`                         | Jest / angular-eslint                       | Unit tests and lint.                                                     |
+| `test`                                 | `@angular-builders/jest`                    | Unit tests, zoneless like the app.                                       |
+| `lint`                                 | `@angular-eslint/builder`                   | Needs an ESLint config you provide; none is generated yet.               |
 | `native`                               | `@iamandersonp/nx-ionic-cordova:native`     | Cordova operations, selected by configuration.                           |
 | `ionic-hook-build`, `ionic-hook-serve` | `@iamandersonp/nx-ionic-cordova:ionic-hook` | Targets the Ionic CLI hooks run.                                         |
 | `ionic-cordova-build`                  | `@ionic/cordova-builders`                   | Cordova web build.                                                       |
