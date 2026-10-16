@@ -26,11 +26,14 @@ export const DEV_DEPENDENCIES: Readonly<Record<string, string>> = {
   '@ionic/angular-toolkit': '^13.0.0',
   '@ionic/cli': '^7.2.0',
   '@ionic/cordova-builders': '^13.0.0',
+  'angular-eslint': '^22.5.0',
   cordova: '^13.0.0',
   'cordova-res': '^0.15.4',
+  eslint: '^10.10.0',
   jest: '^30.0.0',
   'jest-environment-jsdom': '^30.0.0',
   'jest-preset-angular': '^17.0.0',
   'native-run': '^2.0.0',
-  typescript: '~6.0.0'
+  typescript: '~6.0.0',
+  'typescript-eslint': '^8.61.0'
 };
