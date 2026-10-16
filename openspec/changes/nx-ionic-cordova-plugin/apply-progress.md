@@ -289,3 +289,30 @@ Tasks 10.0-10.5 complete. Slices 11-12 pending.
 - About 307 insertions before bookkeeping. `tsconfig` extends `<offset>tsconfig.base.json`; `setup-jest.ts` imports `jest-preset-angular/setup-jest`.
 - Templates only; the `files` build `assets` entry stays in task 11.4. Generated `tsconfig.angular.json` references `src/main.ts`, added in slice 11.
 - Deviations from private: no aliases, `polyfills`, localization or per-env config files; `ionic.config.json` keeps `capacitor.enabled=false`.
+
+## Slice 11: Starter source templates and assets copy (branch `feat/nx-ionic-cordova-11-starter-templates`)
+
+Tasks 11.1-11.5 complete. Slice 12 pending. Commit 1 of the slice is the carried `f4e06fa0` (`jest-preset-angular` in the init devDependencies).
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 11.1/11.2 | `app/starter-files.spec.ts` | Unit (`createTreeWithEmptyWorkspace`) | app specs passing | 5 failed (templates absent) | 5/5 | exact file set, no `test-setup.ts`, main and routes content, Jest-only specs, favicon bytes, no `@bde`/translate/alias | None |
+| 11.3 | same | same | same | same run | 5/5 | n/a | None |
+| 11.4 | `manifest.spec.ts` | Unit (reads `project.json`) | 6 passing | 1 failed (no `assets`) | 7/7 | n/a: one config entry | None |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `nx run nx-ionic-cordova:test -- starter-files` 5/5; `-- manifest` 7/7 |
+| Runtime harness | `nx run nx-ionic-cordova:build`: `out-tsc/lib/src/generators/app/files` holds 26 files, `cmp` shows the favicon byte-identical, no compiled `.ts` |
+| Rollback boundary | Revert the two slice commits (`files/src/**`, `starter-files.spec.ts`; `project.json` `assets`, `manifest.spec.ts` block) |
+
+### Notes
+
+- Sources are fetched verbatim from `ionic-team/starters@main`; the starter specs needed no Jest adaptation (`describe/it/expect` globals, `TestBed` under `jest-preset-angular`). Only `environment.ts` changed in place (starter comments restored). The pre-commit Prettier hook reformatted the html/scss templates (whitespace only).
+- All `.ts` templates use the `__tmpl__` suffix, so tsc, jest and lint ignore them. Assets live on the `compile` target (`@nx/js:tsc` `assets`).
+- A first build failed because two `.ts` templates lacked the suffix (shell typo); tsc caught it and it was fixed before commit. The generated specs are not executed under Jest here; running them in a generated app is a verify-phase item.
+- Gates: `test:ci`, `typecheck`, `nx run-many -t lint`, `nx run nx-ionic-cordova:build` all exit 0.

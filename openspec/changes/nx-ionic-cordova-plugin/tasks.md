@@ -126,11 +126,11 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 11: Starter source templates and assets copy (~390 lines) [APP, PKG]
 
-- [ ] 11.1 RED: generated tree contains the starter file set listed in design "Interfaces / Contracts" (index.html, main.ts, global.scss, theme, assets, app and home files, specs); no `src/test-setup.ts`. [APP starter-equivalent]
-- [ ] 11.2 RED: no file contains localization plugin, `TRANSLATION_PATH`, `@shared/*` alias or `@bde`. [APP no extras, PKG clean sources]
-- [ ] 11.3 GREEN `files/src/**` templates, verbatim from `ionic-team/starters@main` (base + blank overlay), with the Jest bootstrap adaptation for the starter specs.
-- [ ] 11.4 Add `assets` entry to `project.json` copying `files/**` into `out-tsc/lib/src/generators/app/files`.
-- [ ] 11.5 Gates plus `nx build nx-ionic-cordova`; confirm templates in the build output.
+- [x] 11.1 RED: generated tree contains the starter file set listed in design "Interfaces / Contracts" (index.html, main.ts, global.scss, theme, assets, app and home files, specs); no `src/test-setup.ts`. [APP starter-equivalent]
+- [x] 11.2 RED: no file contains localization plugin, `TRANSLATION_PATH`, `@shared/*` alias or `@bde`. [APP no extras, PKG clean sources]
+- [x] 11.3 GREEN `files/src/**` templates, verbatim from `ionic-team/starters@main` (base + blank overlay), with the Jest bootstrap adaptation for the starter specs.
+- [x] 11.4 Add `assets` entry to `project.json` copying `files/**` into `out-tsc/lib/src/generators/app/files`.
+- [x] 11.5 Gates plus `nx build nx-ionic-cordova`; confirm templates in the build output.
 
 ## Slice 12: README and pack check (~250 lines) [PKG]
 
