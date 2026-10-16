@@ -77,9 +77,10 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 5: `ionic-hook` executor (~200 lines) [HOOK]
 
-- [ ] 5.1 Port `schema.*` and spec; RED for all mapping scenarios (web, cordova, serve, `live-<platform>`, conflict throws, fallback config, `PORT`, failed result, missing project). [HOOK mapping, live reload, config/PORT]
-- [ ] 5.2 GREEN `executor.ts`; register in `executors.json`; REFACTOR with `plugin-entry`.
-- [ ] 5.3 Gates.
+- [x] 5.1 Port `schema.*` and spec; RED for all mapping scenarios (web, cordova, serve, `live-<platform>`, conflict throws, fallback config, `PORT`, failed result, missing project). [HOOK mapping, live reload, config/PORT]
+- [x] 5.2 GREEN `executor.ts`; register in `executors.json`; REFACTOR with `plugin-entry`.
+- [x] 5.3 Gates.
+- [x] 5.4 RED/GREEN `spawnCli` passes the child an env with `<root>/node_modules/.bin` first on PATH (`path.delimiter`, PATH key casing kept); the command stays `execPath` + entry. [NAT resolver, native-run follow-up from 4.5]
 
 ## Slice 6: `bin` and `cli/lib` (~300 lines) [HOOK, PKG]
 
