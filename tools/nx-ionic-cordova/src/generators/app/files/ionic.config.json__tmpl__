@@ -1,0 +1,8 @@
+{
+  "name": "<%= name %>",
+  "integrations": {
+    "cordova": {},
+    "capacitor": { "enabled": false }
+  },
+  "type": "angular"
+}

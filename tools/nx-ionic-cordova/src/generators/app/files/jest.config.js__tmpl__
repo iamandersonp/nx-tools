@@ -1,0 +1,21 @@
+module.exports = {
+  rootDir: __dirname,
+  preset: 'jest-preset-angular',
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  moduleNameMapper: {
+    '^@ionic/core/components$': '<rootDir>/<%= offset %>node_modules/@ionic/core/dist/index.cjs.js',
+    '^@ionic/core/loader$': '<rootDir>/<%= offset %>node_modules/@ionic/core/loader/index.cjs.js',
+    '^@ionic/core$': '<rootDir>/<%= offset %>node_modules/@ionic/core/dist/index.cjs.js',
+    '^@ionic/core/components/(.*)$': '<rootDir>/<%= offset %>node_modules/@ionic/core/components/$1',
+    '^ionicons/components/(.*)$': '<rootDir>/<%= offset %>node_modules/ionicons/components/$1',
+    '^ionicons': '<rootDir>/<%= offset %>node_modules/ionicons'
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!.*.mjs$|@angular/common/locales/|@awesome-cordova-plugins/|@ionic/angular/|@ionic/core/|ionicons/)'
+  ],
+  roots: ['<rootDir>/src'],
+  coverageDirectory: '<rootDir>/coverage',
+  // `projectRoot` keeps the lcov `SF:` paths relative to the app, which SonarQube needs.
+  coverageReporters: [['lcov', { projectRoot: __dirname }], 'text-summary'],
+  collectCoverageFrom: ['src/app/**/*.ts', '!src/app/**/*.spec.ts', '!src/app/**/*.d.ts']
+};

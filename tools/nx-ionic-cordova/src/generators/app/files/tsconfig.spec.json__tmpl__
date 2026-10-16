@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./out-tsc/spec",
+    "types": ["jest", "node"],
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "isolatedModules": true,
+    "emitDecoratorMetadata": true,
+    "allowJs": true
+  },
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
+  "references": [{ "path": "./tsconfig.app.json" }]
+}

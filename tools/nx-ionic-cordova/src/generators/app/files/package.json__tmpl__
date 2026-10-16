@@ -1,0 +1,13 @@
+{
+  "name": "<%= name %>",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "ionic:build": "<%= hookBuildScript %>",
+    "ionic:serve": "<%= hookServeScript %>"
+  },
+  "cordova": {
+    "plugins": {},
+    "platforms": []
+  }
+}
