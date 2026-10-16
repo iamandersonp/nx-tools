@@ -139,3 +139,15 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 - [x] 12.3 Write `tools/nx-ionic-cordova/README.md`: requirements, `nx add`, `init` and `app` options tables, `native` and `ionic-hook` executor options, supported majors, manual-publish note. [PKG README]
 - [x] 12.4 Run `npm exec nx run nx-ionic-cordova:build` then `npm pack --dry-run` in `tools/nx-ionic-cordova`; confirm compiled JS, manifests, schemas, template files, README and executable `bin` are listed, and no specs.
 - [x] 12.5 Final gates: test:ci, typecheck, lint, build; confirm bde-nx has no diff. No publish automation is added.
+
+## Slice 13: Remediation of the failed verify (branch `feat/nx-ionic-cordova-13-fix-generated-app`)
+
+- [x] 13.1 RED/GREEN `build-app-project-json.spec.ts`: `build` declares `outputs: ['{projectRoot}/www']`. [verify C1]
+- [x] 13.2 RED/GREEN `app/generator.spec.ts`: `tsconfig.angular.json` also resets `emitDeclarationOnly`. [verify C2]
+- [x] 13.3 RED/GREEN `init/generator.spec.ts`: `@angular/build ^22` and `jest-environment-jsdom ^30` added; exact ranges asserted instead of `toBeDefined`; no `zone.js`. [verify C3, C4a, W5]
+- [x] 13.4 RED/GREEN: `test` runs `zoneless: true` (the starter `main.ts` is zoneless) with `tsConfig` relative to the project root; `setup-jest.ts` and `setupFilesAfterEnv` removed because the builder initialises the test environment (a second `setupZonelessTestEnv` throws). [verify C4b-d]
+- [x] 13.5 Every schema has a `description`; `packaging.spec.ts` fails when `.github/workflows` is empty. [verify S1, W4]
+- [x] 13.6 README states `lint` needs a workspace ESLint config. [verify W1, partial]
+- [x] 13.7 Re-run the packed-tarball smoke from scratch: `demo:build` and `demo:test` exit 0.
+- [ ] 13.8 FOLLOW-UP (deferred, budget): generate an app `eslint.config.js` mirroring the starter's `angular-standalone/base/eslint.config.js` and add its packages to `init`, so `demo:lint` works out of the box. [verify W1]
+- [ ] 13.9 FOLLOW-UP (deferred): add a packaging-level e2e smoke script or test. [verify W2, W6]
