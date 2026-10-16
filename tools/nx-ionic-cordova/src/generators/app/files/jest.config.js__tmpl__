@@ -1,7 +1,6 @@
 module.exports = {
   rootDir: __dirname,
   preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   moduleNameMapper: {
     '^@ionic/core/components$': '<rootDir>/<%= offset %>node_modules/@ionic/core/dist/index.cjs.js',
     '^@ionic/core/loader$': '<rootDir>/<%= offset %>node_modules/@ionic/core/loader/index.cjs.js',

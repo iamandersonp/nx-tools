@@ -104,13 +104,14 @@ describe('app generator', () => {
       });
     });
 
-    it('chains the leaf tsconfigs and writes the Jest bootstrap', async () => {
+    it('chains the leaf tsconfigs and leaves the Jest bootstrap to the builder', async () => {
       const tree = createFixtureTree();
       await appGenerator(tree, { ...BASE, directory });
       expect(readJson(tree, `${root}/tsconfig.app.json`).extends).toBe('./tsconfig.json');
       expect(readJson(tree, `${root}/tsconfig.spec.json`).compilerOptions.types).toEqual(['jest', 'node']);
       expect(readJson(tree, `${root}/tsconfig.angular.json`).extends).toBe('./tsconfig.app.json');
-      expect(tree.read(`${root}/setup-jest.ts`, 'utf-8')).toContain("import 'jest-preset-angular/setup-jest'");
+      expect(tree.exists(`${root}/setup-jest.ts`)).toBe(false);
+      expect(tree.read(`${root}/jest.config.js`, 'utf-8')).not.toContain('setupFilesAfterEnv');
     });
   });
 
