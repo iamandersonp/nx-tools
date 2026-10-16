@@ -6,6 +6,9 @@ import unusedImports from 'eslint-plugin-unused-imports';
 
 export default [
   {
+    ignores: ['**/coverage/**', '**/out-tsc/**'],
+  },
+  {
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
     },
