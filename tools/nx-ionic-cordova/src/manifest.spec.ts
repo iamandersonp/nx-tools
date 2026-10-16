@@ -55,6 +55,18 @@ describe('bin build step', () => {
   });
 });
 
+describe('template assets', () => {
+  const project = JSON.parse(readFileSync(join(PROJECT_ROOT, 'project.json'), 'utf8')) as {
+    targets: Record<string, { options: { assets?: { input: string; glob: string; output: string }[] } }>;
+  };
+
+  it('copies the app templates into the compiled generator directory', () => {
+    expect(project.targets['compile'].options.assets).toEqual([
+      { input: 'tools/nx-ionic-cordova/src/generators/app/files', glob: '**/*', output: 'src/generators/app/files' }
+    ]);
+  });
+});
+
 describe('generator registration', () => {
   const registry = JSON.parse(readFileSync(join(PROJECT_ROOT, 'generators.json'), 'utf8')) as {
     generators: Record<string, { factory: string; schema: string }>;
