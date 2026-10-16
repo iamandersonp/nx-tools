@@ -109,14 +109,15 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 9: `app` options, depth and `project.json` (~380 lines) [APP]
 
-- [ ] 9.1 RED `normalize-app-options.spec.ts`: missing `appId` throws with no writes; `Not Valid` throws naming the option; existing project throws; defaults (`apps`, `app`, `displayName`). [APP options]
-- [ ] 9.2 RED: depth 1, 2, 3 yield `../`, `../../`, `../../../` via `offsetFromRoot`. [APP depth]
-- [ ] 9.3 RED `build-app-project-json.spec.ts`: each target's executor string, `live-android`/`live-ios`, no `@bde`. [APP targets]
-- [ ] 9.4 GREEN `schema.*`, `lib/normalize-app-options.ts`, `lib/build-app-project-json.ts`, `generator.ts` (project config only, no templates); register.
-- [ ] 9.5 Gates. Measure the diff; if over 400, move `generator.ts` wiring into slice 10.
+- [x] 9.1 RED `normalize-app-options.spec.ts`: missing `appId` throws with no writes; `Not Valid` throws naming the option; existing project throws; defaults (`apps`, `app`, `displayName`). [APP options]
+- [x] 9.2 RED: depth 1, 2, 3 yield `../`, `../../`, `../../../` via `offsetFromRoot`. [APP depth]
+- [x] 9.3 RED `build-app-project-json.spec.ts`: each target's executor string, `live-android`/`live-ios`, no `@bde`. [APP targets]
+- [x] 9.4 GREEN `schema.*`, `lib/normalize-app-options.ts`, `lib/build-app-project-json.ts` (`generator.ts` and registration moved to slice 10 per 9.5).
+- [x] 9.5 Gates. Measure the diff; if over 400, move `generator.ts` wiring into slice 10.
 
 ## Slice 10: Wiring templates (~350 lines) [APP]
 
+- [ ] 10.0 RED/GREEN `generator.ts` (moved from 9.4): validate, `addProjectConfiguration` from `buildAppProjectJson`, register in `generators.json`.
 - [ ] 10.1 RED `generator.spec.ts`: exactly one `config.xml` with widget id and display name; no `config*.xml` variant or `build-*_ENV.json`. [APP single config, identity]
 - [ ] 10.2 RED: app `package.json` has name, hook scripts, `cordova: {plugins:{}, platforms:[]}` and no dependency keys. [APP package.json]
 - [ ] 10.3 RED: tsconfigs, `jest.config.js`, `setup-jest.ts` offsets at depths 1/2/3; `skipFormat`; re-run for another name leaves other projects intact. [APP depth, format]
