@@ -100,12 +100,12 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 8: `init` and `versions.ts` (~300 lines) [INIT]
 
-- [ ] 8.1 Create `src/utils/versions.ts` constants; check `@angular-builders/jest` and `@angular-eslint` ranges against the registry (open question).
-- [ ] 8.2 RED `init.spec.ts`: single entry (string and object), re-run unchanged, missing `nx.json` created. [INIT registration]
-- [ ] 8.3 RED: devDependencies added, newer version kept (`keepExistingVersions`), `skipFormat`, install callback returned. [INIT deps, skipFormat]
-- [ ] 8.4 GREEN `generators/init/{generator,schema.json,schema.d.ts}`; register in `generators.json`.
-- [ ] 8.5 Validate that Nx 23 accepts a plugin with no `createNodes` without warnings (open question).
-- [ ] 8.6 Gates.
+- [x] 8.1 Create `src/utils/versions.ts` constants; check `@angular-builders/jest` and `@angular-eslint` ranges against the registry (open question).
+- [x] 8.2 RED `init.spec.ts`: single entry (string and object), re-run unchanged, missing `nx.json` created. [INIT registration]
+- [x] 8.3 RED: devDependencies added, newer version kept (`keepExistingVersions`), `skipFormat`, install callback returned. [INIT deps, skipFormat]
+- [x] 8.4 GREEN `generators/init/{generator,schema.json,schema.d.ts}`; register in `generators.json`.
+- [x] 8.5 Validate that Nx 23 accepts a plugin with no `createNodes` without warnings (open question).
+- [x] 8.6 Gates.
 
 ## Slice 9: `app` options, depth and `project.json` (~380 lines) [APP]
 
