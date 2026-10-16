@@ -40,6 +40,14 @@
       "options": {
         "args": ["src/**/*.ts"]
       }
+    },
+    "sonar": {
+      "options": {
+        "projectKey": "nx-tools-nx-ionic-cordova",
+        "projectName": "nx-tools nx-ionic-cordova",
+        "extraExclusions": ["src/generators/app/files/**"],
+        "extraCoverageExclusions": ["src/generators/app/files/**"]
+      }
     }
   }
 }
