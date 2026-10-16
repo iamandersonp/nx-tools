@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxIonicCordovaInit",
+  "title": "Register the Ionic/Cordova plugin in nx.json",
+  "description": "Adds the plugin to nx.json plugins and the Angular, Ionic and Cordova packages to the root package.json.",
+  "type": "object",
+  "properties": {
+    "skipFormat": {
+      "type": "boolean",
+      "description": "Skip formatting the files the generator changed.",
+      "default": false
+    }
+  },
+  "required": []
+}
