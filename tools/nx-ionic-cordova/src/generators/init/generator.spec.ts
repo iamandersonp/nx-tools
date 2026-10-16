@@ -100,6 +100,9 @@ describe('initGenerator', () => {
       expect(manifest.devDependencies['@angular-builders/jest']).toBe('^22.0.0');
       expect(manifest.devDependencies['jest-preset-angular']).toBe('^17.0.0');
       expect(manifest.devDependencies['@angular-eslint/builder']).toBe('^22.0.0');
+      expect(manifest.devDependencies['eslint']).toBe('^10.10.0');
+      expect(manifest.devDependencies['angular-eslint']).toBe('^22.5.0');
+      expect(manifest.devDependencies['typescript-eslint']).toBe('^8.61.0');
       expect(manifest.devDependencies['@angular/build']).toBe('^22.0.0');
       expect(manifest.devDependencies['jest-environment-jsdom']).toBe('^30.0.0');
       expect(manifest.dependencies['@ionic/angular']).toBe('^9.0.0');
