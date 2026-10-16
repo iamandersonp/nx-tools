@@ -339,3 +339,33 @@ Tasks 12.1-12.5 complete. All 12 slices done.
 
 - Closes the carried gap: `schema` paths pointed at `src/` while only `out-tsc/lib` shipped; each `schema.json` is now listed in `files`, as nx-sonar does.
 - Publishing stays manual; no publish automation added. Verify-phase items: run the generated app specs in a generated app; a real `nx g` run.
+
+## Slice 13: Remediation (branch `feat/nx-ionic-cordova-13-fix-generated-app`)
+
+Tasks 13.1-13.7 complete; 13.8 (app ESLint config) and 13.9 (e2e smoke) deferred as follow-ups.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 13.1 | `build-app-project-json.spec.ts` | Unit | 4 suites/46 passing | 1 failed (no `outputs`) | 4/4 suites | outputPath object plus outputs | None needed |
+| 13.2 | `app/generator.spec.ts` | Unit | same | 3 failed (depths ".", "apps", "apps/mobile") | pass | 3 depths | None needed |
+| 13.3 | `init/generator.spec.ts` | Unit | 9/9 | 1 failed (exact ranges) | 12/12 with `src/utils` | exact ranges, no `zone.js` guard (passes trivially, regression guard) | None needed |
+| 13.4 | `build-app-project-json.spec.ts`, `app/generator.spec.ts` | Unit | 50/50 | 4 failed (zoneless/tsConfig, setup file still present, 3 depths) | 205/205 | 3 depths | Doc comment on `buildAppProjectJson` |
+| 13.5 | `packaging.spec.ts` | Unit | 6/6 | 1 failed (3 schemas without description) | 206/206 | all 4 schemas | None needed |
+| 13.6 | README | N/A (documentation) | - | - | - | - | - |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command | `npm exec -- jest -c jest.config.js src` in `tools/nx-ionic-cordova`: exit 0, 206 passed |
+| Runtime harness | New scratch `e2e2`: `nx build`, `npm pack`, fresh `create-nx-workspace@23`, install tarball, `init`, `npm install`, `app demo --appId=com.example.demo --directory=apps/demo`: all exit 0; `demo:build` exit 0; `demo:test` exit 0 (2 suites, 2 tests); `demo:lint` exit 1 (deferred, 13.8) |
+| Rollback boundary | Revert the five slice 13 commits (generator/templates/versions/schemas/README) |
+
+### Notes
+
+- Starter `main.ts` calls `bootstrapApplication` with no zone provider, so Angular 22 is zoneless; the generated tests follow it and `zone.js` is not added.
+- `jest-preset-angular@17` ships `setup-env/{zone,zoneless}`, not `setup-jest`. `@angular-builders/jest` already runs `setupZonelessTestEnv`; a second call fails in `initTestEnvironment`, so the generated `setup-jest.ts` was removed (design line 78-79 listed it).
+- Deviation from design: no `setup-jest.ts` in the generated app.
+- Repo gates: `test:ci`, `typecheck`, `nx run-many -t lint`, `nx run nx-ionic-cordova:build` all exit 0.
