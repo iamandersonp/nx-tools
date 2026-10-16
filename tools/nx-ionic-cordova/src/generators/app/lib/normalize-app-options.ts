@@ -20,7 +20,7 @@ export interface NormalizedAppGeneratorOptions {
 }
 
 /** At least two dot-separated segments, each starting with a letter (Android package rules). */
-const REVERSE_DNS = /^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)+$/;
+const REVERSE_DNS = /^[A-Za-z]\w*(\.[A-Za-z]\w*)+$/;
 
 /**
  * Validates the raw options and resolves their defaults. Throws before anything is written
