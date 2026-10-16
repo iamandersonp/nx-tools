@@ -75,7 +75,7 @@ Tasks 2.1-2.5 complete. Slices 3-12 pending.
 
 ## Slice 3: `native` core (branch `feat/nx-ionic-cordova-03-native-core`)
 
-Tasks 3.1-3.6 complete. Slices 4-12 pending.
+Tasks 3.1-3.6 complete.
 
 ### TDD Cycle Evidence
 
@@ -98,3 +98,35 @@ Tasks 3.1-3.6 complete. Slices 4-12 pending.
 - No `node_modules/.bin`, `@bde` ids or localisation commentary. Emulator targeting arrives in slice 4 (`buildArgv` keeps its optional serial parameter).
 - A missing CLI is caught: error log naming CLI and package, `{ success: false }`. A missing project throws, per the spec.
 - Risk: `executors.json` points schemas at `./src/...` but `package.json#files` publishes only `out-tsc/lib` (same as nx-sonar). Fix in the packaging slice.
+
+## Slice 4: Emulator and plugin add/rm (branch `feat/nx-ionic-cordova-04-native-emulator-plugins`)
+
+Tasks 4.1-4.6 complete. Slices 5-12 pending.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 4.1/4.2 | `lib/android-emulator.spec.ts` (ported) | Unit (injected adb runner) | N/A (new) | Suite failed: module `./android-emulator` missing | 12/12 | 12 cases (first/many/offline/physical/CRLF/lookalike serials, `ANDROID_HOME` > `ANDROID_SDK_ROOT` > PATH, empty unset, adb failure) | Prettier-formatted port |
+| 4.4 | `executor.spec.ts` | Unit (mocked `spawnCli`, `listRunningEmulators`) | 44 prior tests passing | 4 failed (target last, several logged, android from `args`, none warns once) | 65/65 | 4 targeting cases + 3 no-query cases (device, ios, unset deploy) | None |
+| 4.3 | `executor.spec.ts` (+ `build-argv.spec.ts` from slice 3) | Unit | same | Not observed RED: `build-argv` already implements `plugin` (slice 3); the 2 new executor cases (`;`/`&&`/`$()` stays one element, omitted `--plugin` invents nothing) passed on first run | Passed | 2 cases | None |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `npm exec -- nx run nx-ionic-cordova:test` - 7 suites, 65 tests passed (21 new) |
+| Runtime harness | Fake adb via injected runner; no real adb or emulator spawned |
+| Rollback boundary | Delete `lib/android-emulator*`; revert `executor.ts` and `executor.spec.ts` |
+
+### Task 4.5 finding: `native-run` discovery
+
+Checked empirically with `@ionic/cli@7.2.1` and `native-run` in a scratch project. `@ionic/cli` does not depend on `native-run`; it calls `which('native-run')` on `PATH` (`lib/native-run.js`) and otherwise tells the user to install it globally.
+- PATH without `node_modules/.bin`: `native-run cannot be found within PATH`.
+- PATH with `node_modules/.bin` first: found.
+
+So a workspace-local `native-run` is NOT found when `nx` is launched without npm (no `.bin` on PATH). Not fixed here (out of slice scope). Recommended follow-up: have `spawnCli` pass `env` with `<root>/node_modules/.bin` prepended to `PATH` (an env entry, not the spawned command, so the "no `.bin` command path" rule holds), or document a global `native-run` requirement in the README (slice 12).
+
+### Notes
+
+- Emulator targeting is ported from the private source with `logger.warn`/`logger.info` and the native-run #409 comment; it runs inside the executor's `try`.

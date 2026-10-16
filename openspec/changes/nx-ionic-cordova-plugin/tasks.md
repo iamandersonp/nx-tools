@@ -68,12 +68,12 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 4: Emulator and plugin add/rm (~280 lines) [NAT]
 
-- [ ] 4.1 Port `lib/android-emulator.ts` and spec. RED: first `emulator-<n>` in state `device`, multiple log, offline/physical ignored, none/adb failure warns once. [NAT emulator]
-- [ ] 4.2 RED: adb lookup order `ANDROID_HOME` → `ANDROID_SDK_ROOT` → PATH; empty counts as unset.
-- [ ] 4.3 RED: `--plugin` yields `plugin add <spec>`, one argv element; omitted `--plugin` invents nothing. [NAT plugin]
-- [ ] 4.4 GREEN wiring in executor.
-- [ ] 4.5 Validate open question: `native-run` discovery without `.bin` on PATH; record the outcome in the PR.
-- [ ] 4.6 Gates.
+- [x] 4.1 Port `lib/android-emulator.ts` and spec. RED: first `emulator-<n>` in state `device`, multiple log, offline/physical ignored, none/adb failure warns once. [NAT emulator]
+- [x] 4.2 RED: adb lookup order `ANDROID_HOME` → `ANDROID_SDK_ROOT` → PATH; empty counts as unset.
+- [x] 4.3 RED: `--plugin` yields `plugin add <spec>`, one argv element; omitted `--plugin` invents nothing. [NAT plugin]
+- [x] 4.4 GREEN wiring in executor.
+- [x] 4.5 Validate open question: `native-run` discovery without `.bin` on PATH; record the outcome in the PR.
+- [x] 4.6 Gates.
 
 ## Slice 5: `ionic-hook` executor (~200 lines) [HOOK]
 
