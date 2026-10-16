@@ -40,3 +40,17 @@ describe('package manifest', () => {
     expect(manifest.peerDependencies).toEqual({ '@nx/devkit': '^23', nx: '^23' });
   });
 });
+
+describe('bin build step', () => {
+  const project = JSON.parse(readFileSync(join(PROJECT_ROOT, 'project.json'), 'utf8')) as {
+    targets: Record<string, { dependsOn?: string[]; options: { command?: string } }>;
+  };
+
+  it('marks the compiled bin executable after compiling', () => {
+    const bin = manifest.bin['nx-ionic-hook'].replace(/^\.\//, '');
+
+    expect(project.targets['build'].dependsOn).toEqual(['compile']);
+    expect(project.targets['build'].options.command).toContain('chmodSync');
+    expect(project.targets['build'].options.command).toContain(bin);
+  });
+});

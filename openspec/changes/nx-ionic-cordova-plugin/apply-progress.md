@@ -158,3 +158,28 @@ Tasks 5.1-5.4 complete (5.4 is the carried native-run follow-up). Slices 6-12 pe
 
 - The private specs were trimmed to the spec scenarios (duplicated triangulation cases dropped) and the long commentary was condensed to stay under budget.
 
+
+## Slice 6: `bin` and `cli/lib` (branch `feat/nx-ionic-cordova-06-bin-cli`)
+
+Tasks 6.1-6.5 complete. Slices 7-12 pending.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 6.1 | `cli/lib/*.spec.ts` (trimmed port) | Unit | 82 prior tests passing | Suites failed: modules missing | 88/88 | project forms, config forms, trailing flag, look-alikes | Helpers condensed |
+| 6.2/6.3 | `cli/ionic-hook.spec.ts` | Unit (injected deps) | 88 passing | Failed: "Cannot find module './ionic-hook'" | 91/91 (1 message fix after first GREEN run) | no target, no root, exit 3 propagates, nx via resolver | None |
+| 6.4 | `manifest.spec.ts` | Unit (reads `project.json`) | 91 passing | 1 failed (no chmod step) | 92/92 | n/a | None |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `npm exec -- nx run nx-ionic-cordova:test` - 13 suites, 92 tests passed (10 new) |
+| Runtime harness | Built bin: no args exits 1 with usage; from `/tmp` exits 1 naming the missing root; `nx-ionic-cordova:nonexistent` runs the real nx and exits 1; file is `-rwxr-xr-x` with `#!/usr/bin/env node` |
+| Rollback boundary | Delete `src/cli`; restore `project.json` `build` target; drop `manifest.spec.ts` block |
+
+### Notes
+
+- `build` is now `nx:run-commands` (chmod 755 of the bin) depending on `compile` (the former `@nx/js:tsc` build). Node-based chmod keeps it shell-neutral.
+- The bin does not read `__dirname`, `node_modules/.bin/nx`, or `swc`; nx runs via `spawnCli('nx','nx')`.
