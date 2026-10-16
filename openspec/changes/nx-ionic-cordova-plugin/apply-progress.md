@@ -342,7 +342,7 @@ Tasks 12.1-12.5 complete. All 12 slices done.
 
 ## Slice 13: Remediation (branch `feat/nx-ionic-cordova-13-fix-generated-app`)
 
-Tasks 13.1-13.7 complete; 13.8 (app ESLint config) and 13.9 (e2e smoke) deferred as follow-ups.
+Tasks 13.1-13.8 complete; 13.9 (e2e smoke) deferred as a follow-up.
 
 ### TDD Cycle Evidence
 
@@ -369,3 +369,13 @@ Tasks 13.1-13.7 complete; 13.8 (app ESLint config) and 13.9 (e2e smoke) deferred
 - `jest-preset-angular@17` ships `setup-env/{zone,zoneless}`, not `setup-jest`. `@angular-builders/jest` already runs `setupZonelessTestEnv`; a second call fails in `initTestEnvironment`, so the generated `setup-jest.ts` was removed (design line 78-79 listed it).
 - Deviation from design: no `setup-jest.ts` in the generated app.
 - Repo gates: `test:ci`, `typecheck`, `nx run-many -t lint`, `nx run nx-ionic-cordova:build` all exit 0.
+
+### Task 13.8 (app ESLint config)
+
+| Task | Test File | Layer | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|-----|-------|-------------|----------|
+| 13.8 | `app/generator.spec.ts`, `init/generator.spec.ts` | Unit | 4 failed (config at 3 depths, exact ranges) | 209/209 | 3 depths | None needed |
+
+- Starter `eslint.config.js` copied verbatim to `files/eslint.config.js`; `init` adds `eslint ^10.10.0`, `angular-eslint ^22.5.0`, `typescript-eslint ^8.61.0` (starter ranges). No `eslintConfig` option needed: the builder resolves the app-level config.
+- Fresh e2e `e2e3` (pack, `create-nx-workspace@23`, install, `init`, `npm install`, `app demo`): `demo:build`, `demo:test`, `demo:lint` (`--skip-nx-cache`) all exit 0, no manual workarounds.
+- README lint row now states the generated config is used.

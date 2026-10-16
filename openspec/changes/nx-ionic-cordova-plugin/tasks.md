@@ -149,5 +149,5 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 - [x] 13.5 Every schema has a `description`; `packaging.spec.ts` fails when `.github/workflows` is empty. [verify S1, W4]
 - [x] 13.6 README states `lint` needs a workspace ESLint config. [verify W1, partial]
 - [x] 13.7 Re-run the packed-tarball smoke from scratch: `demo:build` and `demo:test` exit 0.
-- [ ] 13.8 FOLLOW-UP (deferred, budget): generate an app `eslint.config.js` mirroring the starter's `angular-standalone/base/eslint.config.js` and add its packages to `init`, so `demo:lint` works out of the box. [verify W1]
+- [x] 13.8 Generate an app `eslint.config.js` mirroring the starter's `angular-standalone/base/eslint.config.js` and add its packages to `init`, so `demo:lint` works out of the box. [verify W1]
 - [ ] 13.9 FOLLOW-UP (deferred): add a packaging-level e2e smoke script or test. [verify W2, W6]
