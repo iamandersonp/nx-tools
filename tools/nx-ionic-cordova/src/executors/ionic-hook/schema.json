@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/schema",
   "$id": "IonicHook",
   "title": "Translate an Ionic CLI ionic:build/ionic:serve hook call into the matching Nx target",
+  "description": "Runs the Nx target that matches the Ionic CLI ionic:build or ionic:serve hook that invoked it.",
   "type": "object",
   "properties": {
     "hook": {

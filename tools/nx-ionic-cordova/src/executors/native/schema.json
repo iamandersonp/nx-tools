@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/schema",
   "$id": "Native",
   "title": "Run an Ionic/Cordova CLI command scoped to the invoking project's own root",
+  "description": "Runs a Cordova or Ionic CLI command from the invoking project's root, through Node.",
   "type": "object",
   "properties": {
     "cli": {
