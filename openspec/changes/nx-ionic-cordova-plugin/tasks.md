@@ -59,12 +59,12 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 3: `native` core (~300 lines) [NAT]
 
-- [ ] 3.1 Port `schema.json`, `schema.d.ts`, `lib/build-argv.ts` and spec (private source). [NAT argv]
-- [ ] 3.2 RED: argv ordering, emulator `--target` last, no `--target` for device.
-- [ ] 3.3 RED `lib/resolve-cwd.spec.ts`: project cwd, missing `projectName` throws, unknown project. [NAT cwd]
-- [ ] 3.4 RED `executor.spec.ts`: spawn through `spawnCli`; missing CLI returns `{success:false}` and spawns nothing; exit 1 fails. [NAT result]
-- [ ] 3.5 GREEN `lib/resolve-cwd.ts`, `executor.ts`; register in `executors.json`.
-- [ ] 3.6 Gates.
+- [x] 3.1 Port `schema.json`, `schema.d.ts`, `lib/build-argv.ts` and spec (private source). [NAT argv]
+- [x] 3.2 RED: argv ordering, emulator `--target` last, no `--target` for device.
+- [x] 3.3 RED `lib/resolve-cwd.spec.ts`: project cwd, missing `projectName` throws, unknown project. [NAT cwd]
+- [x] 3.4 RED `executor.spec.ts`: spawn through `spawnCli`; missing CLI returns `{success:false}` and spawns nothing; exit 1 fails. [NAT result]
+- [x] 3.5 GREEN `lib/resolve-cwd.ts`, `executor.ts`; register in `executors.json`.
+- [x] 3.6 Gates.
 
 ## Slice 4: Emulator and plugin add/rm (~280 lines) [NAT]
 

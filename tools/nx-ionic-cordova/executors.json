@@ -2,5 +2,11 @@
   "$schema": "http://json-schema.org/schema",
   "name": "nx-ionic-cordova",
   "version": "0.0.1",
-  "executors": {}
+  "executors": {
+    "native": {
+      "implementation": "./out-tsc/lib/src/executors/native/executor",
+      "schema": "./src/executors/native/schema.json",
+      "description": "Run an Ionic/Cordova CLI command scoped to the invoking project's root."
+    }
+  }
 }
