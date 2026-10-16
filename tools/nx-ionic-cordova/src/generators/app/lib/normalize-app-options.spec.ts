@@ -51,6 +51,25 @@ describe('normalizeAppOptions', () => {
     }
   );
 
+  it.each(['apps/demo', 'apps\\demo', 'a:demo', 'my app', '1demo', '-demo'])(
+    'rejects the path-like or malformed name %s pointing to --directory',
+    (name) => {
+      expect(() => normalizeAppOptions(tree, { ...BASE, name })).toThrow(/--directory/);
+    }
+  );
+
+  it.each(['../outside', 'a/../../x', '/abs', 'C:\\x', '..\\x'])(
+    'rejects the directory %s that escapes the workspace',
+    (directory) => {
+      expect(() => normalizeAppOptions(tree, { ...BASE, directory })).toThrow(/directory/);
+    }
+  );
+
+  it('places a dashed name under a nested directory', () => {
+    const options = normalizeAppOptions(tree, { ...BASE, name: 'demo-app', directory: 'apps/mobile' });
+    expect(options.appRoot).toBe('apps/mobile/demo-app');
+  });
+
   it('rejects an existing project', () => {
     addProjectConfiguration(tree, 'shop', { root: 'apps/shop' });
     expect(() => normalizeAppOptions(tree, BASE)).toThrow(/shop.*already exists/);

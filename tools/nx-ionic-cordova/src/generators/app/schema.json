@@ -7,7 +7,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "The Nx project name of the new application.",
+      "description": "The Nx project name of the new application. It is a name, not a path: it must start with a letter and contain no '/', '\\', ':' or whitespace. Use --directory for the location.",
       "$default": { "$source": "argv", "index": 0 },
       "x-prompt": "What name would you like to use for the application?"
     },
@@ -18,7 +18,7 @@
     },
     "directory": {
       "type": "string",
-      "description": "The directory the application is generated under.",
+      "description": "The directory the application is generated under. It must be a relative path inside the workspace, without '..' segments.",
       "default": "apps"
     },
     "displayName": {

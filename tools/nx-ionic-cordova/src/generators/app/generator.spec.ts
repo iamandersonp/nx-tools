@@ -114,6 +114,12 @@ describe('app generator', () => {
       });
     });
 
+    it('enables esModuleInterop for the spec compilation, so ts-jest raises no TS151001', async () => {
+      const tree = createFixtureTree();
+      await appGenerator(tree, { ...BASE, directory });
+      expect(readJson(tree, `${root}/tsconfig.spec.json`).compilerOptions.esModuleInterop).toBe(true);
+    });
+
     it('chains the leaf tsconfigs and leaves the Jest bootstrap to the builder', async () => {
       const tree = createFixtureTree();
       await appGenerator(tree, { ...BASE, directory });
@@ -149,6 +155,18 @@ describe('app generator', () => {
       addProjectConfiguration(tree, 'shop', { root: 'libs/shop' });
       await expect(appGenerator(tree, BASE)).rejects.toThrow('already exists');
       expect(tree.exists('apps/shop/config.xml')).toBe(false);
+    });
+  });
+
+  describe('name and directory guards', () => {
+    it.each([
+      ['apps/demo', undefined, '--directory'],
+      ['demo', '../outside', 'directory']
+    ])('throws and writes nothing for name %s with directory %s', async (name, directory, hint) => {
+      const tree = createFixtureTree();
+      const before = tree.listChanges().map((change) => change.path);
+      await expect(appGenerator(tree, { name, appId: 'com.acme.shop', directory })).rejects.toThrow(hint);
+      expect(tree.listChanges().map((change) => change.path)).toEqual(before);
     });
   });
 
