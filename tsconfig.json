@@ -4,6 +4,9 @@
   "files": [],
   "references": [
     {
+      "path": "./tools/nx-ionic-cordova"
+    },
+    {
       "path": "./tools/nx-sonar"
     }
   ],

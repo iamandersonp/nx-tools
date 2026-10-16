@@ -1,0 +1,13 @@
+/* What ships: the plugin's executors and generators, excluding specs.
+ * `rootDir` is this project's own `src/`, project-relative `outDir` --
+ * self-contained, same shape as `tools/nx-sonar/tsconfig.lib.json`. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./out-tsc/lib",
+    "emitDeclarationOnly": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
+}
