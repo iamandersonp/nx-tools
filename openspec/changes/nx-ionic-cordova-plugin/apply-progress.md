@@ -263,3 +263,29 @@ Tasks 9.1-9.5 complete. `generator.ts` and its registration moved to slice 10 (t
 
 - Private `widgetId` is public `appId` (required, reverse-DNS). Nothing hardcodes `../../`; `$schema` uses `offsetFromRoot`. Target paths stay workspace-root relative.
 - Deviations from the private `project.json`: no `polyfills` (starter has none, no zone.js); `test.tsConfig` is `<appRoot>/tsconfig.spec.json` (builder resolves from the workspace root; unverified at runtime until slice 10/11).
+
+## Slice 10: Wiring templates (branch `feat/nx-ionic-cordova-10-wiring-templates`)
+
+Tasks 10.0-10.5 complete. Slices 11-12 pending.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 10.0/10.4 | `app/generator.spec.ts` | Unit (`createTreeWithEmptyWorkspace`) | 169 passing | "Cannot find module './generator'" | 16/16 (1 fix: `addProjectConfiguration` needs `root`) | project, identity, ionic.config, depths `.`/`apps`/`apps/mobile`, invalid id, existing name | None |
+| 10.1-10.3 | same | same | same | same run | 16/16 | single config.xml, package.json keys, offsets, `skipFormat`, second app leaves first intact | None |
+| 10.0 registration | `manifest.spec.ts` | Unit (reads `generators.json`) | 5 passing | 1 failed (`app` missing) | 6/6 | `init` and `app` | None |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `npm exec -- nx run nx-ionic-cordova:test` - 44 app/manifest tests passed; `test:ci`, `typecheck`, `nx run-many -t lint` exit 0 |
+| Runtime harness | N/A: Tree-based generator specs; a real `nx g` run waits for the slice 11 sources |
+| Rollback boundary | Delete `app/generator*`, `app/files`; revert the `generators.json` `app` entry and the `manifest.spec.ts` block |
+
+### Notes
+
+- About 307 insertions before bookkeeping. `tsconfig` extends `<offset>tsconfig.base.json`; `setup-jest.ts` imports `jest-preset-angular/setup-jest`.
+- Templates only; the `files` build `assets` entry stays in task 11.4. Generated `tsconfig.angular.json` references `src/main.ts`, added in slice 11.
+- Deviations from private: no aliases, `polyfills`, localization or per-env config files; `ionic.config.json` keeps `capacitor.enabled=false`.

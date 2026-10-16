@@ -117,12 +117,12 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 10: Wiring templates (~350 lines) [APP]
 
-- [ ] 10.0 RED/GREEN `generator.ts` (moved from 9.4): validate, `addProjectConfiguration` from `buildAppProjectJson`, register in `generators.json`.
-- [ ] 10.1 RED `generator.spec.ts`: exactly one `config.xml` with widget id and display name; no `config*.xml` variant or `build-*_ENV.json`. [APP single config, identity]
-- [ ] 10.2 RED: app `package.json` has name, hook scripts, `cordova: {plugins:{}, platforms:[]}` and no dependency keys. [APP package.json]
-- [ ] 10.3 RED: tsconfigs, `jest.config.js`, `setup-jest.ts` offsets at depths 1/2/3; `skipFormat`; re-run for another name leaves other projects intact. [APP depth, format]
-- [ ] 10.4 GREEN `files/` (`config.xml__tmpl__`, `ionic.config.json__tmpl__`, `package.json__tmpl__`, `tsconfig*.json__tmpl__`, `jest.config.js__tmpl__`, `setup-jest.ts__tmpl__`, environments) via `generateFiles`.
-- [ ] 10.5 Gates.
+- [x] 10.0 RED/GREEN `generator.ts` (moved from 9.4): validate, `addProjectConfiguration` from `buildAppProjectJson`, register in `generators.json`.
+- [x] 10.1 RED `generator.spec.ts`: exactly one `config.xml` with widget id and display name; no `config*.xml` variant or `build-*_ENV.json`. [APP single config, identity]
+- [x] 10.2 RED: app `package.json` has name, hook scripts, `cordova: {plugins:{}, platforms:[]}` and no dependency keys. [APP package.json]
+- [x] 10.3 RED: tsconfigs, `jest.config.js`, `setup-jest.ts` offsets at depths 1/2/3; `skipFormat`; re-run for another name leaves other projects intact. [APP depth, format]
+- [x] 10.4 GREEN `files/` (`config.xml__tmpl__`, `ionic.config.json__tmpl__`, `package.json__tmpl__`, `tsconfig*.json__tmpl__`, `jest.config.js__tmpl__`, `setup-jest.ts__tmpl__`, environments) via `generateFiles`.
+- [x] 10.5 Gates.
 
 ## Slice 11: Starter source templates and assets copy (~390 lines) [APP, PKG]
 
