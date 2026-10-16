@@ -11,7 +11,8 @@ import type { NormalizedAppGeneratorOptions } from './normalize-app-options';
  * (`appRoot`); only `$schema` points upward, through the depth-derived `offset`.
  *
  * `build`, `serve` and `ionic-cordova-build` depend on `^build` directly, because
- * `targetDefaults` only match a target literally named `build`. `outputPath.base` and
+ * `targetDefaults` only match a target literally named `build`. `build` declares `outputs` because Nx
+ * cannot expand its default `{options.outputPath}` when `outputPath` is an object. `outputPath.base` and
  * `cordovaBasePath` are explicit: `@ionic/cordova-builders` ignores an implicit value.
  *
  * @param options the normalized generator options
@@ -37,6 +38,7 @@ export function buildAppProjectJson(options: NormalizedAppGeneratorOptions): Rec
       build: {
         executor: '@angular/build:application',
         dependsOn: ['^build'],
+        outputs: ['{projectRoot}/www'],
         options: buildOptions,
         configurations: {
           production: {
