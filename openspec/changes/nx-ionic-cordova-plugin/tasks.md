@@ -134,8 +134,8 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 12: README and pack check (~250 lines) [PKG]
 
-- [ ] 12.1 RED `packaging.spec.ts`: `files` covers every manifest path, schema and templates; no spec or source outside `files`; repo-wide check finds no `@bde`/`es.bde`/`asb` default/`.bin` spawn; no workflow runs `npm publish`. [PKG tarball, no coupling, wiring]
-- [ ] 12.2 GREEN: adjust `files` and `.npmignore` as needed.
-- [ ] 12.3 Write `tools/nx-ionic-cordova/README.md`: requirements, `nx add`, `init` and `app` options tables, `native` and `ionic-hook` executor options, supported majors, manual-publish note. [PKG README]
-- [ ] 12.4 Run `npm exec nx run nx-ionic-cordova:build` then `npm pack --dry-run` in `tools/nx-ionic-cordova`; confirm compiled JS, manifests, schemas, template files, README and executable `bin` are listed, and no specs.
-- [ ] 12.5 Final gates: test:ci, typecheck, lint, build; confirm bde-nx has no diff. No publish automation is added.
+- [x] 12.1 RED `packaging.spec.ts`: `files` covers every manifest path, schema and templates; no spec or source outside `files`; repo-wide check finds no `@bde`/`es.bde`/`asb` default/`.bin` spawn; no workflow runs `npm publish`. [PKG tarball, no coupling, wiring]
+- [x] 12.2 GREEN: adjust `files` and `.npmignore` as needed.
+- [x] 12.3 Write `tools/nx-ionic-cordova/README.md`: requirements, `nx add`, `init` and `app` options tables, `native` and `ionic-hook` executor options, supported majors, manual-publish note. [PKG README]
+- [x] 12.4 Run `npm exec nx run nx-ionic-cordova:build` then `npm pack --dry-run` in `tools/nx-ionic-cordova`; confirm compiled JS, manifests, schemas, template files, README and executable `bin` are listed, and no specs.
+- [x] 12.5 Final gates: test:ci, typecheck, lint, build; confirm bde-nx has no diff. No publish automation is added.
