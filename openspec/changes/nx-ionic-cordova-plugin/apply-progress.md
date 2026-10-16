@@ -209,3 +209,33 @@ Tasks 7.1-7.5 complete. Slices 8-12 pending.
 
 - Native configs: `ios-build-test/ante` merged into `ios-build-debug`; `--buildConfig` dropped. `WORKSPACE_NPM_SCOPE` helper not ported (`@bde`).
 - Gates: `test:ci`, `typecheck`, `nx run-many -t lint` all exit 0.
+
+## Slice 8: `init` and `versions.ts` (branch `feat/nx-ionic-cordova-08-init`)
+
+Tasks 8.1-8.6 complete. Slices 9-12 pending.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 8.1 | `utils/versions.spec.ts`, `shared/plugin-entry.spec.ts` | Unit | 128 passing | `./versions` missing, `isPluginEntry` not exported | 141/141 | majors, no package in both groups, both entry shapes, look-alike | None |
+| 8.2-8.4 | `generators/init/generator.spec.ts` | Unit (`createTreeWithEmptyWorkspace`) | 128 passing | Failed: "Cannot find module './generator'" | 141/141 | string and object entries, re-run unchanged, missing nx.json, deps split, newer kept, skipFormat, install callback | None |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `npm exec -- nx run nx-ionic-cordova:test` - 19 suites, 141 tests passed (13 new) |
+| Runtime harness | Scratch workspace with the built plugin in `nx.json`: `nx show projects` exits 0, no warnings, isolated and not |
+| Rollback boundary | Delete `src/generators/init`, `src/utils`; revert `generators.json` and the `isPluginEntry` addition |
+
+### Findings
+
+- 8.1 (registry, 2026-10): `@angular/*` 22.2.3, `@ionic/angular` 9.0.8, `@ionic/angular-toolkit` 13.0.0, `ionicons` 8.1.0, `cordova` 13.0.0, `cordova-android` 15.1.0, `@ionic/cordova-builders` 13.0.0, `@ionic/cli` 7.2.1, `cordova-res` 0.15.4, `native-run` 2.0.3, `@angular-builders/jest` 22.0.1 (peers `build-angular ^22`, `jest ^30`), `@angular-eslint/builder` 22.6.0 (peer `eslint ^9 || ^10`). `typescript` latest is 7.0.2, so `~6.0.0` is deliberate (starter agrees).
+- 8.1 gaps: `zone.js` omitted (starter has none); `cordova-android`/`ios` are per-app platforms, not root packages; `eslint` is left to the workspace.
+- 8.5: Nx 23.2 `loaded-nx-plugin.js` wraps `createNodes` only `if (createNodesImpl)`. Runtime-confirmed: registering the built plugin without `createNodes` gives a clean `nx show projects`, exit 0, no warnings.
+
+### Notes
+
+- Gates: `test:ci`, `typecheck`, `nx run-many -t lint` all exit 0. About 300 insertions and 2 deletions plus bookkeeping.
+- `isPluginEntry` was added to `plugin-entry.ts` (slice 1 had only the constants).
