@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/iamandersonp/nx-tools/compare/nx-ionic-cordova-v1.0.0...nx-ionic-cordova-v1.0.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **nx-ionic-cordova:** normalize the bin path so npm publish stops warning ([742b954](https://github.com/iamandersonp/nx-tools/commit/742b954f6eaf22424650c1bffe6308b8ab7d4ea9))
+
 ## 1.0.0 (2026-10-16)
 
 
