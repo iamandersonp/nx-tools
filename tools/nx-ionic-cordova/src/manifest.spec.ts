@@ -33,7 +33,7 @@ describe('package manifest', () => {
       expect(path).not.toMatch(/\.ts$/);
     }
     expect(manifest.main).toBe('./out-tsc/lib/src/index.js');
-    expect(manifest.bin['nx-ionic-hook']).toBe('./out-tsc/lib/src/cli/ionic-hook.js');
+    expect(manifest.bin['nx-ionic-hook']).toBe('out-tsc/lib/src/cli/ionic-hook.js');
   });
 
   it('requires nx and @nx/devkit at the 23 major', () => {

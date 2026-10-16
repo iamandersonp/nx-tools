@@ -33,7 +33,7 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "bin": {
-    "nx-ionic-hook": "./out-tsc/lib/src/cli/ionic-hook.js"
+    "nx-ionic-hook": "out-tsc/lib/src/cli/ionic-hook.js"
   },
   "peerDependencies": {
     "@nx/devkit": "^23",
