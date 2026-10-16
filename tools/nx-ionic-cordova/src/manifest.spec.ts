@@ -54,3 +54,14 @@ describe('bin build step', () => {
     expect(project.targets['build'].options.command).toContain(bin);
   });
 });
+
+describe('generator registration', () => {
+  const registry = JSON.parse(readFileSync(join(PROJECT_ROOT, 'generators.json'), 'utf8')) as {
+    generators: Record<string, { factory: string; schema: string }>;
+  };
+
+  it.each(['init', 'app'])('registers %s with a compiled factory and a source schema', (id) => {
+    expect(registry.generators[id].factory).toBe(`./out-tsc/lib/src/generators/${id}/generator.js`);
+    expect(registry.generators[id].schema).toBe(`./src/generators/${id}/schema.json`);
+  });
+});
