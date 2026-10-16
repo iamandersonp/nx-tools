@@ -1,6 +1,6 @@
 {
   "name": "@iamandersonp/nx-ionic-cordova",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Nx plugin for Ionic/Cordova workspaces: scaffolds apps, runs native Cordova CLI commands scoped to one app, and maps Ionic CLI hooks to Nx targets.",
   "private": false,
   "keywords": [
