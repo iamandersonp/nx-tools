@@ -1,109 +1,98 @@
-# New Nx Repository
+# nx-tools
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+An Nx 23 monorepo that hosts public Nx plugins published under the `@iamandersonp` npm scope.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Plugins
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/docs/technologies/typescript/introduction?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+| Package                                                              | Version            | Purpose                                                                                                                |
+| -------------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| [`@iamandersonp/nx-sonar`](tools/nx-sonar/README.md)                 | 1.0.2              | Runs the Sonar scanner for every project that opts in, deriving the scanner properties from the Nx project graph.      |
+| [`@iamandersonp/nx-ionic-cordova`](tools/nx-ionic-cordova/README.md) | 0.0.0 (unreleased) | Scaffolds Ionic/Cordova Angular apps wired to Nx and runs Cordova, Ionic and `cordova-res` commands scoped to one app. |
 
-🚀 If you haven't connected to Nx Cloud yet, [complete your setup here](https://cloud.nx.app/get-started). Get faster builds with remote caching, distributed task execution, and self-healing CI. [See how your workspace can benefit](#nx-cloud).
+Each plugin's README documents its generators, executors and options.
 
-## Generate a library
+## Repository structure
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
+```text
+nx-tools/
+├── tools/                         # Publishable Nx plugins (npm workspaces)
+│   ├── nx-sonar/
+│   │   ├── src/
+│   │   │   ├── executors/sonar/   # sonar executor
+│   │   │   ├── generators/        # init, configuration and shared helpers
+│   │   │   └── testing/           # shared test helpers
+│   │   ├── executors.json
+│   │   ├── generators.json
+│   │   ├── CHANGELOG.md
+│   │   └── README.md
+│   └── nx-ionic-cordova/
+│       ├── src/
+│       │   ├── cli/               # nx-ionic-hook bin
+│       │   ├── executors/         # native and ionic-hook executors
+│       │   ├── generators/        # init, app (with files/ templates) and shared builders
+│       │   ├── shared/            # CLI resolution and spawning
+│       │   └── utils/             # package versions added by init
+│       ├── executors.json
+│       ├── generators.json
+│       └── README.md
+├── packages/                      # Reserved for future packages (empty)
+├── openspec/                      # Spec-driven development artifacts
+│   ├── config.yaml
+│   ├── specs/                     # Binding capability specs
+│   └── changes/archive/           # Completed changes
+├── .github/workflows/             # ci, codeql and release-please
+├── .git-hooks/                    # Versioned Git hooks (pre-commit, commit-msg, prepare-commit-msg)
+├── .agents/ .claude/ .codex/      # AI agent configuration and Nx skills
+│   .cursor/ .gemini/ .opencode/
+├── nx.json                        # Nx configuration and inferred-target plugins
+├── package.json                   # Workspace scripts and devDependencies
+├── release-please-config.json     # Release Please packages
+├── .release-please-manifest.json  # Current released versions
+├── tsconfig.base.json
+├── tsconfig.json                  # Solution file with project references
+├── eslint.config.mjs
+├── commitlint.config.js
+└── AGENTS.md                      # Guide for AI agents working in this repo
 ```
 
-## Run tasks
+## Requirements
 
-To build the library use:
+- Node `>=22.22.3 <23` (see `.nvmrc`) and npm `>=10 <12`.
 
-```sh
-npx nx run pkg1:build
+## Getting started
+
+```bash
+npm install
 ```
 
-To run any task with Nx use:
+`postinstall` points Git at `.git-hooks`, so the hooks run on every commit.
 
-```sh
-npx nx run <project-name>:<target>
-```
+## Scripts
 
-These targets are either [inferred automatically](https://nx.dev/docs/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+| Command                 | What it does                                          |
+| ----------------------- | ----------------------------------------------------- |
+| `npm run test:ci`       | Runs every project's tests once.                      |
+| `npm run test:coverage` | Runs every project's tests with coverage.             |
+| `npm run typecheck`     | Checks Nx project references, then typechecks.        |
+| `npm run lint`          | Lints every project.                                  |
+| `npm run sonar`         | Runs the Sonar analysis, loading `.env.local` if set. |
 
-[More about running tasks in the docs &raquo;](https://nx.dev/docs/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Build a single plugin with `npm exec -- nx run <project>:build`, for example
+`npm exec -- nx run nx-ionic-cordova:build`.
 
-## Versioning and releasing
+## Quality gates
 
-To version and release the library use
+- **pre-commit:** typecheck, tests with coverage, `lint --fix` and Prettier on staged files.
+- **commit-msg:** Conventional Commits, enforced by commitlint.
+- **CI** (`ci.yml`): `test`, `build` and `typecheck` on pull requests and on `main`.
+- **CodeQL** (`codeql.yml`): on pushes and pull requests to `main` and `develop`.
 
-```
-npx nx release
-```
+## Branching and releases
 
-Pass `--dry-run` to see what would happen without actually releasing the library.
+- Work lands in `develop` through pull requests linked to an approved issue.
+- `develop` is promoted to `main`. Release Please runs on `main` and opens a release PR and tag per package.
+- Publishing to npm is manual (`npm publish` by the maintainer).
 
-[Learn more about Nx release &raquo;](https://nx.dev/docs/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## License
 
-## Keep TypeScript project references up to date
-
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
-
-```sh
-npx nx sync
-```
-
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
-
-```sh
-npx nx sync:check
-```
-
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
-
-## Nx Cloud
-
-Nx Cloud ensures a [fast and scalable CI](https://nx.dev/nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/docs/features/ci-features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/docs/features/ci-features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/docs/features/ci-features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/docs/features/ci-features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Set up CI (non-Github Actions CI)
-
-**Note:** This is only required if your CI provider is not GitHub Actions.
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/docs/features/ci-features?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/docs/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## 🔗 Learn More
-
-- [Nx Documentation](https://nx.dev/docs)
-- [Crafting Your Workspace Tutorial](https://nx.dev/docs/getting-started/tutorials/crafting-your-workspace)
-- [Module Boundaries](https://nx.dev/docs/features/enforce-module-boundaries)
-- [Releasing Packages](https://nx.dev/docs/features/manage-releases)
-- [Nx Plugins](https://nx.dev/docs/concepts/nx-plugins)
-- [Nx Cloud](https://nx.dev/nx-cloud)
-
-## 💬 Community
-
-Join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [X (Twitter)](https://twitter.com/nxdevtools)
-- [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [YouTube](https://www.youtube.com/@nxdevtools)
-- [Blog](https://nx.dev/blog)
+[MIT](LICENSE)

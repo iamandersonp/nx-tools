@@ -1,0 +1,61 @@
+{
+  "name": "nx-ionic-cordova",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/nx-ionic-cordova/src",
+  "projectType": "library",
+  "targets": {
+    "compile": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "tools/nx-ionic-cordova/out-tsc/lib",
+        "main": "tools/nx-ionic-cordova/src/index.ts",
+        "tsConfig": "tools/nx-ionic-cordova/tsconfig.lib.json",
+        "assets": [
+          {
+            "input": "tools/nx-ionic-cordova/src/generators/app/files",
+            "glob": "**/*",
+            "output": "src/generators/app/files"
+          }
+        ]
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["compile"],
+      "outputs": ["{projectRoot}/out-tsc/lib"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "node -e \"require('fs').chmodSync('out-tsc/lib/src/cli/ionic-hook.js', 0o755)\""
+      }
+    },
+    "e2e": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "cache": false,
+      "options": {
+        "command": "node tools/nx-ionic-cordova/e2e/smoke.mjs"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/tools/nx-ionic-cordova/coverage"],
+      "options": {
+        "jestConfig": "tools/nx-ionic-cordova/jest.config.js"
+      }
+    },
+    "lint": {
+      "options": {
+        "args": ["src/**/*.ts"]
+      }
+    },
+    "sonar": {
+      "options": {
+        "projectKey": "nx-tools-nx-ionic-cordova",
+        "projectName": "nx-tools nx-ionic-cordova",
+        "extraExclusions": ["src/generators/app/files/**"],
+        "extraCoverageExclusions": ["src/generators/app/files/**"]
+      }
+    }
+  }
+}

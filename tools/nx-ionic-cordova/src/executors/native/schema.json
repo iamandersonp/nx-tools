@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Native",
+  "title": "Run an Ionic/Cordova CLI command scoped to the invoking project's own root",
+  "description": "Runs a Cordova or Ionic CLI command from the invoking project's root, through Node.",
+  "type": "object",
+  "properties": {
+    "cli": {
+      "type": "string",
+      "enum": ["cordova", "ionic", "cordova-res"],
+      "description": "Which CLI to run, resolved from the workspace root and run through Node, never through node_modules/.bin.",
+      "default": "cordova"
+    },
+    "command": {
+      "type": "string",
+      "description": "The CLI subcommand to run, e.g. 'build', 'platform', 'prepare'."
+    },
+    "args": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Extra arguments appended after the command.",
+      "default": []
+    },
+    "plugin": {
+      "type": "string",
+      "description": "A Cordova plugin spec (npm package name, git URL, or local path), appended right after the extra arguments and before the platform. Meant for the plugin-add and plugin-rm configurations, e.g. --plugin=cordova-plugin-x."
+    },
+    "platform": {
+      "type": "string",
+      "description": "An optional platform name (e.g. 'android', 'ios'), appended after the command."
+    },
+    "deploy": {
+      "type": "string",
+      "enum": ["device", "emulator"],
+      "description": "Where 'run' deploys the app: 'device' appends --device, 'emulator' appends --emulator, last in the argument vector. Unset appends neither. Pass --deploy=emulator on the command line to override a configuration's value."
+    }
+  },
+  "required": ["command"]
+}

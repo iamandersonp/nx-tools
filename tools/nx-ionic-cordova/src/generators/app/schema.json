@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NxIonicCordovaApp",
+  "title": "Scaffold an Ionic/Cordova application",
+  "description": "Generates an Ionic/Cordova Angular application with the Nx targets for web, native and live-reload builds.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The Nx project name of the new application. It is a name, not a path: it must start with a letter and contain no '/', '\\', ':' or whitespace. Use --directory for the location.",
+      "$default": { "$source": "argv", "index": 0 },
+      "x-prompt": "What name would you like to use for the application?"
+    },
+    "appId": {
+      "type": "string",
+      "description": "The reverse-DNS application id (widget id), e.g. com.acme.shop. It has no default because a wrong id is a store-identity defect.",
+      "x-prompt": "What is the application id (reverse-DNS, e.g. com.acme.shop)?"
+    },
+    "directory": {
+      "type": "string",
+      "description": "The directory the application is generated under. It must be a relative path inside the workspace, without '..' segments.",
+      "default": "apps"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "The application name shown on-device. Defaults to the project name."
+    },
+    "prefix": {
+      "type": "string",
+      "description": "The Angular component and directive selector prefix.",
+      "default": "app"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Comma-separated Nx project tags."
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "description": "Skip formatting the generated files.",
+      "default": false
+    }
+  },
+  "required": ["name", "appId"]
+}

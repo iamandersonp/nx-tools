@@ -6,12 +6,15 @@ import unusedImports from 'eslint-plugin-unused-imports';
 
 export default [
   {
+    ignores: ['**/coverage/**', '**/out-tsc/**'],
+  },
+  {
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
     },
   },
   {
-    files: ['tools/nx-sonar/src/**/*.ts'],
+    files: ['tools/nx-sonar/src/**/*.ts', 'tools/nx-ionic-cordova/src/**/*.ts'],
     languageOptions: {
       parser: tsParser,
     },

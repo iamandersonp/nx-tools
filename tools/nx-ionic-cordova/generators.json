@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "nx-ionic-cordova",
+  "version": "0.0.1",
+  "generators": {
+    "init": {
+      "factory": "./out-tsc/lib/src/generators/init/generator.js",
+      "schema": "./src/generators/init/schema.json",
+      "description": "Register the plugin in nx.json and add the Angular, Ionic and Cordova packages to the root package.json."
+    },
+    "app": {
+      "factory": "./out-tsc/lib/src/generators/app/generator.js",
+      "schema": "./src/generators/app/schema.json",
+      "description": "Scaffold an Ionic/Cordova application wired to Nx."
+    }
+  }
+}
