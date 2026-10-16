@@ -239,3 +239,27 @@ Tasks 8.1-8.6 complete. Slices 9-12 pending.
 
 - Gates: `test:ci`, `typecheck`, `nx run-many -t lint` all exit 0. About 300 insertions and 2 deletions plus bookkeeping.
 - `isPluginEntry` was added to `plugin-entry.ts` (slice 1 had only the constants).
+
+## Slice 9: `app` options, depth and `project.json` (branch `feat/nx-ionic-cordova-09-app-options`)
+
+Tasks 9.1-9.5 complete. `generator.ts` and its registration moved to slice 10 (task 10.0) per 9.5, to stay under 400 lines.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 9.1/9.2 | `app/lib/normalize-app-options.spec.ts` | Unit (`createTreeWithEmptyWorkspace`) | 141 passing | "Cannot find module './normalize-app-options'" | 169/169 | defaults, explicit values, depths `.`/`apps`/`apps/mobile`, 5 invalid ids, missing, existing | None |
+| 9.3 | `app/lib/build-app-project-json.spec.ts` | Unit | 141 passing | same run, module missing | 169/169 | 8 executors, live configs, no `@bde`, depth 1/2/3 `$schema`, tags | Native-config assertion fixed (regex matched `-prod`) |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `npm exec -- nx run nx-ionic-cordova:test` - 21 suites, 169 tests passed (28 new) |
+| Runtime harness | N/A: pure functions plus a read-only tree lookup; the generator wiring is slice 10 |
+| Rollback boundary | Delete `src/generators/app` |
+
+### Notes
+
+- Private `widgetId` is public `appId` (required, reverse-DNS). Nothing hardcodes `../../`; `$schema` uses `offsetFromRoot`. Target paths stay workspace-root relative.
+- Deviations from the private `project.json`: no `polyfills` (starter has none, no zone.js); `test.tsConfig` is `<appRoot>/tsconfig.spec.json` (builder resolves from the workspace root; unverified at runtime until slice 10/11).
