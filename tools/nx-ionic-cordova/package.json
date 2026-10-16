@@ -23,6 +23,10 @@
     "out-tsc/lib",
     "executors.json",
     "generators.json",
+    "src/executors/native/schema.json",
+    "src/executors/ionic-hook/schema.json",
+    "src/generators/init/schema.json",
+    "src/generators/app/schema.json",
     "README.md"
   ],
   "main": "./out-tsc/lib/src/index.js",
