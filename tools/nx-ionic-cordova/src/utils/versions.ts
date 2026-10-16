@@ -20,6 +20,7 @@ export const DEV_DEPENDENCIES: Readonly<Record<string, string>> = {
   '@angular-builders/jest': '^22.0.0',
   '@angular-devkit/build-angular': ANGULAR_RANGE,
   '@angular-eslint/builder': '^22.0.0',
+  '@angular/build': ANGULAR_RANGE,
   '@angular/cli': ANGULAR_RANGE,
   '@angular/compiler-cli': ANGULAR_RANGE,
   '@ionic/angular-toolkit': '^13.0.0',
@@ -28,6 +29,7 @@ export const DEV_DEPENDENCIES: Readonly<Record<string, string>> = {
   cordova: '^13.0.0',
   'cordova-res': '^0.15.4',
   jest: '^30.0.0',
+  'jest-environment-jsdom': '^30.0.0',
   'jest-preset-angular': '^17.0.0',
   'native-run': '^2.0.0',
   typescript: '~6.0.0'

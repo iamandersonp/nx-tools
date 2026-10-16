@@ -96,14 +96,26 @@ describe('initGenerator', () => {
       await initGenerator(tree, { skipFormat: true });
 
       const manifest = rootPackage(tree);
-      expect(manifest.devDependencies['@ionic/cordova-builders']).toBeDefined();
-      expect(manifest.devDependencies['@angular-builders/jest']).toBeDefined();
-      expect(manifest.devDependencies['jest-preset-angular']).toBeDefined();
-      expect(manifest.devDependencies['@angular-eslint/builder']).toBeDefined();
+      expect(manifest.devDependencies['@ionic/cordova-builders']).toBe('^13.0.0');
+      expect(manifest.devDependencies['@angular-builders/jest']).toBe('^22.0.0');
+      expect(manifest.devDependencies['jest-preset-angular']).toBe('^17.0.0');
+      expect(manifest.devDependencies['@angular-eslint/builder']).toBe('^22.0.0');
+      expect(manifest.devDependencies['@angular/build']).toBe('^22.0.0');
+      expect(manifest.devDependencies['jest-environment-jsdom']).toBe('^30.0.0');
       expect(manifest.dependencies['@ionic/angular']).toBe('^9.0.0');
       expect(manifest.dependencies['@angular/core']).toBe('^22.0.0');
       expect(manifest.dependencies['cordova']).toBeUndefined();
       expect(manifest.devDependencies['cordova']).toBe('^13.0.0');
+    });
+
+    it('adds no zone.js, because the generated app and its tests are zoneless', async () => {
+      const tree = createFixtureTree();
+
+      await initGenerator(tree, { skipFormat: true });
+
+      const manifest = rootPackage(tree);
+      expect(manifest.dependencies['zone.js']).toBeUndefined();
+      expect(manifest.devDependencies['zone.js']).toBeUndefined();
     });
 
     it('keeps a newer version that is already present', async () => {
