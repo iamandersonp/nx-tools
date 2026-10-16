@@ -21,17 +21,31 @@ The `init` generator MUST register `@iamandersonp/nx-ionic-cordova` in the `plug
 - WHEN `init` runs
 - THEN `nx.json` is created containing the plugin
 
-### Requirement: Root devDependencies
+### Requirement: Root dependency placement
 
-`init` MUST add to the root `package.json` `devDependencies` every package the app needs at the supported majors (Angular 22, Ionic 9, Cordova 13, `@ionic/cli`, `@ionic/cordova-builders`, `@ionic/angular-toolkit`, `cordova-res`, `native-run`, `@angular-builders/jest`, `@angular-eslint/builder`, and the build tooling). It MUST NOT downgrade a higher version already present.
+`init` MUST write the runtime packages the app needs at the supported majors to the root `package.json` `dependencies`: the `@angular/*` runtime set, `@ionic/angular`, `ionicons`, `rxjs` and `tslib`. It MUST write the tooling packages (Cordova 13, `@ionic/cli`, `@ionic/cordova-builders`, `@ionic/angular-toolkit`, `cordova-res`, `native-run`, `@angular-builders/jest`, `@angular-eslint/builder`, `typescript` and the build tooling) to `devDependencies`. It MUST NOT downgrade a higher version already present, and MUST keep existing versions of packages it finds.
 
-#### Scenario: Dependencies added
-- GIVEN an empty root `devDependencies`
-- THEN the required packages are present with their ranges
+#### Scenario: Runtime packages in dependencies
+- GIVEN empty root `dependencies` and `devDependencies`
+- WHEN `init` runs
+- THEN `@ionic/angular`, `ionicons`, `rxjs`, `tslib` and the `@angular/*` runtime set are in `dependencies` with their ranges
+- AND none of them is in `devDependencies`
+
+#### Scenario: Tooling in devDependencies
+- GIVEN empty root `dependencies` and `devDependencies`
+- WHEN `init` runs
+- THEN the tooling packages are in `devDependencies` with their ranges
+- AND none of them is in `dependencies`
 
 #### Scenario: Existing newer version
 - GIVEN a required package is present at a newer compatible version
+- WHEN `init` runs
 - THEN that version is kept
+
+#### Scenario: Existing version kept in place
+- GIVEN a required runtime package is already declared with a version
+- WHEN `init` runs
+- THEN its existing version is unchanged
 
 ### Requirement: skipFormat and install
 
