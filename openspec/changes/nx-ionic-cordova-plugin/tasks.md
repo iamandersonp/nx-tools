@@ -51,11 +51,11 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 2: Resolver (~220 lines) [NAT, HOOK]
 
-- [ ] 2.1 RED `src/shared/resolve-cli.spec.ts`: `findWorkspaceRoot` nested climb, env fallback, throw (temp dirs). [HOOK root resolution]
-- [ ] 2.2 RED: `resolveCliEntry` string and object `bin`; `argv[0] === execPath`; no path has `.bin`; missing package error names the package. [NAT resolution]
-- [ ] 2.3 RED: `spawnCli` with `;`/`&&` in an arg stays one element, `shell: false`. [Threat: argv]
-- [ ] 2.4 GREEN `src/shared/resolve-cli.ts` with injected `ResolverDeps`; REFACTOR.
-- [ ] 2.5 Gates.
+- [x] 2.1 RED `src/shared/resolve-cli.spec.ts`: `findWorkspaceRoot` nested climb, env fallback, throw (temp dirs). [HOOK root resolution]
+- [x] 2.2 RED: `resolveCliEntry` string and object `bin`; `argv[0] === execPath`; no path has `.bin`; missing package error names the package. [NAT resolution]
+- [x] 2.3 RED: `spawnCli` with `;`/`&&` in an arg stays one element, `shell: false`. [Threat: argv]
+- [x] 2.4 GREEN `src/shared/resolve-cli.ts` with injected `ResolverDeps`; REFACTOR.
+- [x] 2.5 Gates.
 
 ## Slice 3: `native` core (~300 lines) [NAT]
 
