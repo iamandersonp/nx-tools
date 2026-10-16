@@ -84,11 +84,11 @@ Every slice ends with its gate tasks: `npm run test:ci`, `npm run typecheck`, `n
 
 ## Slice 6: `bin` and `cli/lib` (~300 lines) [HOOK, PKG]
 
-- [ ] 6.1 Port `src/cli/lib/*` and specs. RED: strip `--project`/`-p`, rewrite `-c`/`--configuration` to `--buildConfiguration`, drop dangling flag. [HOOK normalization]
-- [ ] 6.2 RED `ionic-hook.spec.ts`: no target prints usage, exit 1; no root exits 1; child exit 3 propagates; spawn via `execPath` with cwd at root. [HOOK executable]
-- [ ] 6.3 GREEN `src/cli/ionic-hook.ts` with the `#!/usr/bin/env node` shebang; `package.json#bin` points to compiled file.
-- [ ] 6.4 RED/GREEN: built bin is executable (`chmod` in build or assets step). [PKG bin runnable]
-- [ ] 6.5 Gates plus `nx build` and run the compiled bin without args.
+- [x] 6.1 Port `src/cli/lib/*` and specs. RED: strip `--project`/`-p`, rewrite `-c`/`--configuration` to `--buildConfiguration`, drop dangling flag. [HOOK normalization]
+- [x] 6.2 RED `ionic-hook.spec.ts`: no target prints usage, exit 1; no root exits 1; child exit 3 propagates; spawn via `execPath` with cwd at root. [HOOK executable]
+- [x] 6.3 GREEN `src/cli/ionic-hook.ts` with the `#!/usr/bin/env node` shebang; `package.json#bin` points to compiled file.
+- [x] 6.4 RED/GREEN: built bin is executable (`chmod` in build or assets step). [PKG bin runnable]
+- [x] 6.5 Gates plus `nx build` and run the compiled bin without args.
 
 ## Slice 7: Shared target builders (~330 lines) [APP]
 
