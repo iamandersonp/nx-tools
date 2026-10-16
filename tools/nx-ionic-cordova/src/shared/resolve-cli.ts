@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, join, resolve as resolvePath } from 'node:path';
+import { delimiter, dirname, join, resolve as resolvePath } from 'node:path';
 
 /** The slice of a `package.json` the resolver reads. */
 interface PackageManifest {
@@ -18,17 +18,20 @@ export interface ResolverDeps {
   spawn: (
     command: string,
     args: string[],
-    options: { cwd: string; shell: false; stdio: 'inherit' }
+    options: { cwd: string; shell: false; stdio: 'inherit'; env: NodeJS.ProcessEnv }
   ) => { status: number | null };
   /** The Node binary that runs the resolved CLI entry. */
   execPath: string;
+  /** The environment the child inherits. */
+  env: NodeJS.ProcessEnv;
 }
 
 const defaultDeps: ResolverDeps = {
   resolve: (request, options) => require.resolve(request, options),
   readJson: (file) => JSON.parse(readFileSync(file, 'utf8')),
   spawn: (command, args, options) => spawnSync(command, args, options),
-  execPath: process.execPath
+  execPath: process.execPath,
+  env: process.env
 };
 
 /**
@@ -113,9 +116,21 @@ export function resolveCliEntry(pkg: string, binName: string, root: string, deps
 }
 
 /**
+ * Copies `env` with `<root>/node_modules/.bin` prepended to its PATH, keeping the
+ * existing key casing (`Path` on Windows). `@ionic/cli` finds `native-run` through
+ * `which` on PATH, so workspace-local binaries must be visible there. This only
+ * extends the child's environment; the spawned command is never taken from `.bin`.
+ */
+function withWorkspaceBin(env: NodeJS.ProcessEnv, root: string): NodeJS.ProcessEnv {
+  const key = Object.keys(env).find((name) => name.toUpperCase() === 'PATH') ?? 'PATH';
+  const bin = join(root, 'node_modules', '.bin');
+  return { ...env, [key]: env[key] ? `${bin}${delimiter}${env[key]}` : bin };
+}
+
+/**
  * Runs a CLI synchronously through `process.execPath` with its resolved
  * entry as the first argument. Arguments stay separate argv elements and
- * no shell is involved. Returns the child's exit status (1 when absent).
+ * no shell is involved; the child's PATH starts with the workspace `.bin`. Returns the child's exit status (1 when absent).
  */
 export function spawnCli(
   pkg: string,
@@ -128,7 +143,8 @@ export function spawnCli(
   const result = deps.spawn(deps.execPath, [entry, ...argv], {
     cwd: opts.cwd,
     shell: false,
-    stdio: 'inherit'
+    stdio: 'inherit',
+    env: withWorkspaceBin(deps.env, opts.root)
   });
   return result.status ?? 1;
 }
