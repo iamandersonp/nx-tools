@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { IONIC_HOOK_EXECUTOR, NATIVE_EXECUTOR, PLUGIN_NAME } from './plugin-entry';
+import { IONIC_HOOK_EXECUTOR, isPluginEntry, NATIVE_EXECUTOR, PLUGIN_NAME } from './plugin-entry';
 
 const PROJECT_ROOT = join(__dirname, '..', '..', '..');
 
@@ -26,5 +26,17 @@ describe('plugin-entry', () => {
   it('never leaks a private scope into the executor ids', () => {
     expect(NATIVE_EXECUTOR).not.toContain('@bde');
     expect(IONIC_HOOK_EXECUTOR).not.toContain('@bde');
+  });
+});
+
+describe('isPluginEntry', () => {
+  it('matches the bare name and the object shape', () => {
+    expect(isPluginEntry(PLUGIN_NAME)).toBe(true);
+    expect(isPluginEntry({ plugin: PLUGIN_NAME })).toBe(true);
+  });
+
+  it('ignores other plugins, including look-alikes', () => {
+    expect(isPluginEntry('@nx/js/typescript')).toBe(false);
+    expect(isPluginEntry({ plugin: `${PLUGIN_NAME}-extra` })).toBe(false);
   });
 });
