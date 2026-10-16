@@ -20,6 +20,8 @@ targets.
 - Nx 23 (`nx` and `@nx/devkit` `^23`).
 - Node as declared by the workspace `engines`.
 - Angular 22, Ionic 9 and Cordova 13. Only these current majors are supported.
+- TypeScript `~6.0`. `@angular/build`, `@angular-devkit/build-angular`, `@ionic/angular-toolkit` and
+  `typescript-eslint` peer on `typescript` `<6.1`, so a newer TypeScript breaks the install.
 - iOS builds need macOS and Xcode.
 
 ## Install
@@ -30,7 +32,9 @@ nx add @iamandersonp/nx-ionic-cordova
 
 `nx add` installs the package and runs `init`, which registers the plugin in
 `nx.json` and adds the Angular, Ionic and Cordova packages to the root
-`package.json`. Running `init` again changes nothing.
+`package.json`: runtime packages go to `dependencies` and tooling to
+`devDependencies`. Versions already in the file are kept. Running `init` again
+changes nothing.
 
 ## Generate an app
 
@@ -40,9 +44,9 @@ nx g @iamandersonp/nx-ionic-cordova:app my-app --appId=com.acme.shop --directory
 
 | Option        | Type    | Default | Description                                                                        |
 | ------------- | ------- | ------- | ---------------------------------------------------------------------------------- |
-| `name`        | string  | prompt  | The Nx project name (first argument).                                              |
+| `name`        | string  | prompt  | The Nx project name (first argument). A name, not a path.                          |
 | `appId`       | string  | prompt  | Required reverse-DNS widget id. No default: a wrong id is a store-identity defect. |
-| `directory`   | string  | `apps`  | The directory the app is generated under.                                          |
+| `directory`   | string  | `apps`  | The directory the app is generated under, inside the workspace.                    |
 | `displayName` | string  | `name`  | The name shown on-device.                                                          |
 | `prefix`      | string  | `app`   | The Angular selector prefix.                                                       |
 | `tags`        | string  |         | Comma-separated Nx project tags.                                                   |
@@ -137,3 +141,7 @@ the package's own `bin` field, which also works with the pnpm virtual store.
 ## Publishing
 
 Publishing is manual. This repository has no workflow that runs `npm publish`.
+
+Before a release, run `nx run nx-ionic-cordova:e2e`. It packs the plugin, installs
+the tarball into a throwaway workspace and builds, tests and lints a generated
+app. It needs registry access and takes about 5-8 minutes. CI does not run it.

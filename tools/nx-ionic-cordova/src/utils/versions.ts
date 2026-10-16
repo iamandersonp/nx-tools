@@ -34,6 +34,8 @@ export const DEV_DEPENDENCIES: Readonly<Record<string, string>> = {
   'jest-environment-jsdom': '^30.0.0',
   'jest-preset-angular': '^17.0.0',
   'native-run': '^2.0.0',
+  // Stays on ~6.0: the Angular 22 toolchain (@angular/build, @angular-devkit/build-angular,
+  // @ionic/angular-toolkit) and typescript-eslint peer on typescript <6.1.
   typescript: '~6.0.0',
   'typescript-eslint': '^8.61.0'
 };
