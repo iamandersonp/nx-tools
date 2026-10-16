@@ -72,3 +72,29 @@ Tasks 2.1-2.5 complete. Slices 3-12 pending.
 - Design `ResolverDeps` is `{ resolve, readJson, spawn, execPath }`. Fallback when `exports` blocks `package.json` (`ERR_PACKAGE_PATH_NOT_EXPORTED`): resolve the main entry, climb to the directory whose manifest `name` equals the package.
 - Any other resolve failure is rethrown as an error naming the package, with the original as `cause`.
 - Unlike the private source, nothing here reads `node_modules/.bin`.
+
+## Slice 3: `native` core (branch `feat/nx-ionic-cordova-03-native-core`)
+
+Tasks 3.1-3.6 complete. Slices 4-12 pending.
+
+### TDD Cycle Evidence
+
+| Task | Test File | Layer | Safety Net | RED | GREEN | TRIANGULATE | REFACTOR |
+|------|-----------|-------|------------|-----|-------|-------------|----------|
+| 3.1/3.2 | `src/executors/native/lib/build-argv.spec.ts` (ported) | Unit | N/A (new) | Failed: "Cannot find module './build-argv'" (3 suites failed, 25 prior tests passing) | 8/8 | 8 cases (serial last, plain emulator, device/unset ignore serial, plugin order, git URL one element) | None |
+| 3.3 | `lib/resolve-cwd.spec.ts` | Unit | N/A (new) | Failed: "Cannot find module './resolve-cwd'" | 4/4 | 4 cases (cwd, second project, unset, unknown) | Dropped private localisation commentary |
+| 3.4/3.5 | `executor.spec.ts` | Unit (mocked `spawnCli`) | N/A (new) | Failed: "Cannot find module './executor'" | 7/7 | 7 cases (default cordova, cli-to-package map x3, exit 1, unresolved CLI, no project) | None |
+
+### Work Unit Evidence
+
+| Evidence | Value |
+|---|---|
+| Focused test command and result | `npm exec -- nx run nx-ionic-cordova:test` - 6 suites, 44 tests passed (19 new) |
+| Runtime harness | N/A for a real spawn: executor specs mock `spawnCli`; the resolver specs cover the spawn contract |
+| Rollback boundary | Delete `tools/nx-ionic-cordova/src/executors`; restore `executors.json` to `"executors": {}` |
+
+### Notes
+
+- No `node_modules/.bin`, `@bde` ids or localisation commentary. Emulator targeting arrives in slice 4 (`buildArgv` keeps its optional serial parameter).
+- A missing CLI is caught: error log naming CLI and package, `{ success: false }`. A missing project throws, per the spec.
+- Risk: `executors.json` points schemas at `./src/...` but `package.json#files` publishes only `out-tsc/lib` (same as nx-sonar). Fix in the packaging slice.
