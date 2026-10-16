@@ -6,6 +6,7 @@ describe('versions', () => {
     expect(RUNTIME_DEPENDENCIES['@ionic/angular']).toBe('^9.0.0');
     expect(RUNTIME_DEPENDENCIES['ionicons']).toBe('^8.1.0');
     expect(DEV_DEPENDENCIES['@ionic/angular-toolkit']).toBe('^13.0.0');
+    expect(DEV_DEPENDENCIES['jest-preset-angular']).toBe('^17.0.0');
     expect(DEV_DEPENDENCIES['cordova']).toBe('^13.0.0');
     expect(DEV_DEPENDENCIES['typescript']).toBe('~6.0.0');
   });
