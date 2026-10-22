@@ -1,13 +1,15 @@
 # nx-tools
 
-An Nx 23 monorepo that hosts public Nx plugins published under the `@iamandersonp` npm scope.
+[![Nx](https://img.shields.io/github/package-json/dependency-version/iamandersonp/nx-tools/dev/nx)](https://nx.dev)
+
+An Nx monorepo that hosts public Nx plugins published under the `@iamandersonp` npm scope.
 
 ## Plugins
 
-| Package                                                              | Version            | Purpose                                                                                                                |
-| -------------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| [`@iamandersonp/nx-sonar`](tools/nx-sonar/README.md)                 | 1.0.2              | Runs the Sonar scanner for every project that opts in, deriving the scanner properties from the Nx project graph.      |
-| [`@iamandersonp/nx-ionic-cordova`](tools/nx-ionic-cordova/README.md) | 0.0.0 (unreleased) | Scaffolds Ionic/Cordova Angular apps wired to Nx and runs Cordova, Ionic and `cordova-res` commands scoped to one app. |
+| Package                                                              | Version                                                                                                                             | Purpose                                                                                                                |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [`@iamandersonp/nx-sonar`](tools/nx-sonar/README.md)                 | [![npm](https://img.shields.io/npm/v/@iamandersonp/nx-sonar)](https://www.npmjs.com/package/@iamandersonp/nx-sonar)                 | Runs the Sonar scanner for every project that opts in, deriving the scanner properties from the Nx project graph.      |
+| [`@iamandersonp/nx-ionic-cordova`](tools/nx-ionic-cordova/README.md) | [![npm](https://img.shields.io/npm/v/@iamandersonp/nx-ionic-cordova)](https://www.npmjs.com/package/@iamandersonp/nx-ionic-cordova) | Scaffolds Ionic/Cordova Angular apps wired to Nx and runs Cordova, Ionic and `cordova-res` commands scoped to one app. |
 
 Each plugin's README documents its generators, executors and options.
 
